@@ -6,3 +6,4 @@ pandas
 numpy
 wordcloud
 pillow
+gunicorn==20.1.0
