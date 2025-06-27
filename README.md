@@ -2,6 +2,8 @@
 
 An AI-powered web application built with **Flask** that guides users in shaping their tech career using insights from job trends, resume analysis, and LLM-based recommendations.
 
+**Web Link :** dashboard.render.com/web/srv-d1f5017gi27c73cdls4g/deploys/dep-d1f501ngi27c73cdlsl0
+
  **Features**
 
 ### 📊 Trending Skills
