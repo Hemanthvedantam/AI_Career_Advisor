@@ -1,0 +1,1880 @@
+{
+  "metadata": {
+    "title": "Comprehensive Tech Career Guide 2025",
+    "version": "1.0",
+    "last_updated": "2025-06-22",
+    "total_roles": 52,
+    "total_skills": 300,
+    "description": "Complete guide to tech careers with skills, salaries, companies, and growth trends"
+  },
+  "career_roles": [
+    {
+      "role": "Data Scientist",
+      "category": "Data & Analytics",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Python", "Pandas", "Machine Learning", "SQL", "Statistics", "R", "NumPy", "Scikit-learn", "Jupyter", "Data Visualization"],
+      "preferred_skills": ["Deep Learning", "TensorFlow", "PyTorch", "Big Data", "Spark", "Hadoop", "A/B Testing", "Statistical Modeling"],
+      "average_salary": {
+        "entry": 85000,
+        "mid": 120000,
+        "senior": 165000,
+        "lead": 200000
+      },
+      "top_companies": ["Google", "Amazon", "Meta", "Netflix", "Microsoft", "Apple", "Uber", "Airbnb"],
+      "recommended_courses": [
+        {
+          "title": "IBM Data Science Professional Certificate",
+          "platform": "Coursera",
+          "duration": "6 months",
+          "level": "Beginner to Intermediate"
+        },
+        {
+          "title": "Advanced Machine Learning Specialization",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 85, 90, 95, 98, 99, 100]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Data Scientist", "ML Engineer", "Data Science Manager", "Chief Data Officer"]
+    },
+    {
+      "role": "AI Engineer",
+      "category": "Artificial Intelligence",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Python", "TensorFlow", "Deep Learning", "PyTorch", "NLP", "Computer Vision", "Neural Networks", "Mathematics", "Linear Algebra"],
+      "preferred_skills": ["MLOps", "Kubernetes", "Docker", "Cloud Platforms", "Research", "Paper Implementation", "Model Optimization"],
+      "average_salary": {
+        "entry": 95000,
+        "mid": 135000,
+        "senior": 180000,
+        "lead": 220000
+      },
+      "top_companies": ["OpenAI", "Tesla", "DeepMind", "Apple", "Google", "Amazon", "Microsoft", "Anthropic"],
+      "recommended_courses": [
+        {
+          "title": "Deep Learning Specialization",
+          "platform": "Coursera",
+          "duration": "5 months",
+          "level": "Intermediate to Advanced"
+        },
+        {
+          "title": "Natural Language Processing Specialization",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [60, 70, 88, 93, 97, 99, 100]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior AI Engineer", "AI Research Scientist", "AI Product Manager", "CTO"]
+    },
+    {
+      "role": "Software Engineer",
+      "category": "Software Development",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Programming Languages", "Data Structures", "Algorithms", "Git", "Testing", "Debugging", "Problem Solving"],
+      "preferred_skills": ["System Design", "Cloud Computing", "DevOps", "Agile", "Code Review", "Database Management"],
+      "average_salary": {
+        "entry": 75000,
+        "mid": 110000,
+        "senior": 150000,
+        "lead": 185000
+      },
+      "top_companies": ["Google", "Amazon", "Microsoft", "Apple", "Meta", "Netflix", "Uber", "Airbnb"],
+      "recommended_courses": [
+        {
+          "title": "Complete Software Engineering Bootcamp",
+          "platform": "Udemy",
+          "duration": "6 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [85, 87, 89, 91, 93, 95, 97]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Software Engineer", "Tech Lead", "Engineering Manager", "Architect"]
+    },
+    {
+      "role": "Frontend Developer",
+      "category": "Web Development",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["HTML", "CSS", "JavaScript", "React", "Vue.js", "Angular", "Responsive Design", "DOM Manipulation"],
+      "preferred_skills": ["TypeScript", "Webpack", "Sass", "GraphQL", "Testing Frameworks", "PWA", "Performance Optimization"],
+      "average_salary": {
+        "entry": 65000,
+        "mid": 95000,
+        "senior": 130000,
+        "lead": 165000
+      },
+      "top_companies": ["Google", "Meta", "Netflix", "Airbnb", "Spotify", "Adobe", "Figma", "Shopify"],
+      "recommended_courses": [
+        {
+          "title": "Modern React with Redux",
+          "platform": "Udemy",
+          "duration": "3 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [80, 82, 85, 87, 89, 91, 93]
+      },
+      "job_outlook": "Very Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Frontend Developer", "Frontend Architect", "Full Stack Developer", "UI/UX Engineer"]
+    },
+    {
+      "role": "Backend Developer",
+      "category": "Web Development",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Server-side Languages", "Databases", "APIs", "Web Frameworks", "Security", "Authentication", "System Architecture"],
+      "preferred_skills": ["Microservices", "Cloud Services", "Docker", "Kubernetes", "Message Queues", "Caching", "Performance Tuning"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 105000,
+        "senior": 140000,
+        "lead": 175000
+      },
+      "top_companies": ["Amazon", "Google", "Microsoft", "Uber", "Twitter", "LinkedIn", "Stripe", "Square"],
+      "recommended_courses": [
+        {
+          "title": "Node.js Complete Course",
+          "platform": "Udemy",
+          "duration": "4 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [82, 84, 86, 88, 90, 92, 94]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Backend Developer", "Backend Architect", "Full Stack Developer", "DevOps Engineer"]
+    },
+    {
+      "role": "Full Stack Developer",
+      "category": "Web Development",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Frontend Technologies", "Backend Technologies", "Databases", "Version Control", "API Development", "Testing"],
+      "preferred_skills": ["DevOps", "Cloud Platforms", "System Design", "Mobile Development", "UI/UX Understanding"],
+      "average_salary": {
+        "entry": 75000,
+        "mid": 110000,
+        "senior": 145000,
+        "lead": 180000
+      },
+      "top_companies": ["Shopify", "GitHub", "Atlassian", "Stripe", "Square", "Twilio", "Dropbox", "Slack"],
+      "recommended_courses": [
+        {
+          "title": "Full Stack Web Development Bootcamp",
+          "platform": "Udemy",
+          "duration": "6 months",
+          "level": "Beginner to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [75, 78, 82, 85, 88, 91, 94]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Full Stack Developer", "Technical Lead", "Product Engineer", "Startup CTO"]
+    },
+    {
+      "role": "DevOps Engineer",
+      "category": "Infrastructure & Operations",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Linux", "Docker", "Kubernetes", "CI/CD", "Cloud Platforms", "Infrastructure as Code", "Monitoring", "Scripting"],
+      "preferred_skills": ["Terraform", "Ansible", "Jenkins", "Git", "Security", "Performance Optimization", "Troubleshooting"],
+      "average_salary": {
+        "entry": 80000,
+        "mid": 115000,
+        "senior": 155000,
+        "lead": 190000
+      },
+      "top_companies": ["Amazon", "Google", "Microsoft", "Netflix", "Uber", "Spotify", "Atlassian", "HashiCorp"],
+      "recommended_courses": [
+        {
+          "title": "DevOps Engineer Master Program",
+          "platform": "Edureka",
+          "duration": "5 months",
+          "level": "Intermediate to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 75, 82, 87, 92, 96, 98]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior DevOps Engineer", "Site Reliability Engineer", "Cloud Architect", "Engineering Manager"]
+    },
+    {
+      "role": "Cloud Architect",
+      "category": "Infrastructure & Operations",
+      "experience_level": "Senior to Lead",
+      "required_skills": ["Cloud Platforms", "System Architecture", "Security", "Networking", "Infrastructure Design", "Cost Optimization"],
+      "preferred_skills": ["Multi-cloud Strategy", "Serverless", "Microservices", "Compliance", "Disaster Recovery"],
+      "average_salary": {
+        "entry": 100000,
+        "mid": 140000,
+        "senior": 180000,
+        "lead": 220000
+      },
+      "top_companies": ["Amazon", "Microsoft", "Google", "IBM", "Oracle", "Salesforce", "VMware", "Accenture"],
+      "recommended_courses": [
+        {
+          "title": "AWS Solutions Architect Professional",
+          "platform": "A Cloud Guru",
+          "duration": "4 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 72, 80, 87, 93, 97, 99]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Principal Cloud Architect", "Cloud Strategy Director", "CTO", "Independent Consultant"]
+    },
+    {
+      "role": "Cybersecurity Analyst",
+      "category": "Security",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["Network Security", "Risk Assessment", "Incident Response", "Vulnerability Assessment", "Security Tools", "Compliance"],
+      "preferred_skills": ["Penetration Testing", "Forensics", "Threat Intelligence", "SIEM", "Scripting", "Cloud Security"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 100000,
+        "senior": 135000,
+        "lead": 170000
+      },
+      "top_companies": ["IBM", "Cisco", "Palo Alto Networks", "CrowdStrike", "FireEye", "Symantec", "Microsoft", "Amazon"],
+      "recommended_courses": [
+        {
+          "title": "Cybersecurity Specialization",
+          "platform": "Coursera",
+          "duration": "6 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [75, 80, 85, 90, 94, 97, 99]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior Security Analyst", "Security Engineer", "Security Architect", "CISO"]
+    },
+    {
+      "role": "Mobile App Developer",
+      "category": "Mobile Development",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Mobile Frameworks", "UI/UX Design", "API Integration", "App Store Guidelines", "Testing", "Performance Optimization"],
+      "preferred_skills": ["Cross-platform Development", "Backend Integration", "Push Notifications", "Analytics", "CI/CD"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 105000,
+        "senior": 140000,
+        "lead": 175000
+      },
+      "top_companies": ["Google", "Apple", "Meta", "Uber", "Airbnb", "Instagram", "TikTok", "Spotify"],
+      "recommended_courses": [
+        {
+          "title": "React Native Complete Course",
+          "platform": "Udemy",
+          "duration": "4 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [78, 80, 83, 86, 88, 90, 92]
+      },
+      "job_outlook": "Very Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Mobile Developer", "Mobile Architect", "Product Manager", "Mobile Team Lead"]
+    },
+    {
+      "role": "Game Developer",
+      "category": "Gaming",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Game Engines", "Programming Languages", "3D Mathematics", "Physics", "Game Design", "Graphics Programming"],
+      "preferred_skills": ["VR/AR", "Multiplayer Networking", "Performance Optimization", "Platform-specific Development"],
+      "average_salary": {
+        "entry": 65000,
+        "mid": 95000,
+        "senior": 130000,
+        "lead": 165000
+      },
+      "top_companies": ["Epic Games", "Unity", "Blizzard", "EA", "Ubisoft", "Riot Games", "Valve", "Nintendo"],
+      "recommended_courses": [
+        {
+          "title": "Complete Unity Game Development",
+          "platform": "Udemy",
+          "duration": "5 months",
+          "level": "Beginner to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 73, 76, 80, 84, 87, 90]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Game Developer", "Game Architect", "Technical Director", "Game Studio Founder"]
+    },
+    {
+      "role": "Product Manager",
+      "category": "Product Management",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Product Strategy", "Market Research", "User Experience", "Data Analysis", "Project Management", "Communication"],
+      "preferred_skills": ["Technical Background", "A/B Testing", "Analytics Tools", "Design Thinking", "Agile Methodologies"],
+      "average_salary": {
+        "entry": 85000,
+        "mid": 125000,
+        "senior": 165000,
+        "lead": 200000
+      },
+      "top_companies": ["Google", "Amazon", "Meta", "Apple", "Microsoft", "Airbnb", "Uber", "Spotify"],
+      "recommended_courses": [
+        {
+          "title": "Google Product Management Certificate",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [80, 83, 86, 89, 92, 95, 97]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Product Manager", "Group Product Manager", "VP of Product", "CPO"]
+    },
+    {
+      "role": "UX/UI Designer",
+      "category": "Design",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Design Tools", "User Research", "Prototyping", "Wireframing", "Visual Design", "Usability Testing"],
+      "preferred_skills": ["Design Systems", "Accessibility", "Front-end Development", "Animation", "Design Thinking"],
+      "average_salary": {
+        "entry": 60000,
+        "mid": 90000,
+        "senior": 125000,
+        "lead": 160000
+      },
+      "top_companies": ["Apple", "Google", "Adobe", "Figma", "Airbnb", "Uber", "Netflix", "Spotify"],
+      "recommended_courses": [
+        {
+          "title": "Google UX Design Certificate",
+          "platform": "Coursera",
+          "duration": "6 months",
+          "level": "Beginner"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [75, 78, 81, 84, 87, 90, 92]
+      },
+      "job_outlook": "Very Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior UX Designer", "Design Lead", "Design Director", "Head of Design"]
+    },
+    {
+      "role": "Database Administrator",
+      "category": "Data Management",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Database Systems", "SQL", "Performance Tuning", "Backup & Recovery", "Security", "Monitoring"],
+      "preferred_skills": ["Cloud Databases", "NoSQL", "Automation", "Disaster Recovery", "Data Modeling"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 100000,
+        "senior": 135000,
+        "lead": 170000
+      },
+      "top_companies": ["Oracle", "Microsoft", "IBM", "Amazon", "Google", "MongoDB", "Snowflake", "Databricks"],
+      "recommended_courses": [
+        {
+          "title": "Database Administration Specialization",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 72, 75, 78, 82, 85, 88]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior DBA", "Database Architect", "Data Platform Engineer", "Data Engineering Manager"]
+    },
+    {
+      "role": "Data Engineer",
+      "category": "Data & Analytics",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Python", "SQL", "ETL/ELT", "Data Pipelines", "Cloud Platforms", "Big Data Tools", "Data Modeling"],
+      "preferred_skills": ["Apache Spark", "Kafka", "Airflow", "Docker", "Kubernetes", "Stream Processing"],
+      "average_salary": {
+        "entry": 85000,
+        "mid": 120000,
+        "senior": 160000,
+        "lead": 195000
+      },
+      "top_companies": ["Google", "Amazon", "Microsoft", "Netflix", "Uber", "Airbnb", "Spotify", "LinkedIn"],
+      "recommended_courses": [
+        {
+          "title": "Data Engineering Specialization",
+          "platform": "Coursera",
+          "duration": "5 months",
+          "level": "Intermediate to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [68, 75, 83, 90, 95, 98, 100]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior Data Engineer", "Data Architect", "Platform Engineer", "Head of Data Engineering"]
+    },
+    {
+      "role": "Machine Learning Engineer",
+      "category": "Artificial Intelligence",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Python", "Machine Learning", "Deep Learning", "MLOps", "Cloud Platforms", "Model Deployment", "Statistics"],
+      "preferred_skills": ["TensorFlow", "PyTorch", "Kubernetes", "Docker", "Feature Engineering", "Model Monitoring"],
+      "average_salary": {
+        "entry": 100000,
+        "mid": 140000,
+        "senior": 185000,
+        "lead": 225000
+      },
+      "top_companies": ["Google", "Amazon", "Meta", "Apple", "Microsoft", "Tesla", "Uber", "Netflix"],
+      "recommended_courses": [
+        {
+          "title": "Machine Learning Engineering for Production",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 72, 82, 90, 96, 99, 100]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior ML Engineer", "ML Architect", "AI Research Scientist", "Head of ML"]
+    },
+    {
+      "role": "Business Analyst",
+      "category": "Business Intelligence",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["Data Analysis", "SQL", "Excel", "Business Intelligence Tools", "Requirements Gathering", "Process Modeling"],
+      "preferred_skills": ["Python", "R", "Tableau", "Power BI", "Statistical Analysis", "Domain Knowledge"],
+      "average_salary": {
+        "entry": 60000,
+        "mid": 85000,
+        "senior": 115000,
+        "lead": 145000
+      },
+      "top_companies": ["Deloitte", "PwC", "McKinsey", "BCG", "Accenture", "IBM", "Microsoft", "Oracle"],
+      "recommended_courses": [
+        {
+          "title": "Business Analytics Specialization",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [75, 77, 80, 83, 86, 88, 90]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Business Analyst", "Product Manager", "Business Intelligence Manager", "Data Analyst"]
+    },
+    {
+      "role": "Site Reliability Engineer",
+      "category": "Infrastructure & Operations",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Linux", "Scripting", "Monitoring", "Incident Response", "Automation", "System Architecture", "Performance Optimization"],
+      "preferred_skills": ["Kubernetes", "Docker", "Cloud Platforms", "Observability", "Chaos Engineering"],
+      "average_salary": {
+        "entry": 90000,
+        "mid": 130000,
+        "senior": 170000,
+        "lead": 210000
+      },
+      "top_companies": ["Google", "Netflix", "Uber", "Airbnb", "Spotify", "LinkedIn", "Twitter", "Dropbox"],
+      "recommended_courses": [
+        {
+          "title": "Site Reliability Engineering",
+          "platform": "Coursera",
+          "duration": "3 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [60, 68, 76, 84, 91, 96, 98]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior SRE", "Platform Engineer", "Infrastructure Architect", "Engineering Manager"]
+    },
+    {
+      "role": "QA Engineer",
+      "category": "Quality Assurance",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Testing Methodologies", "Test Automation", "Bug Tracking", "Test Planning", "Quality Processes"],
+      "preferred_skills": ["Selenium", "API Testing", "Performance Testing", "CI/CD", "Scripting Languages"],
+      "average_salary": {
+        "entry": 55000,
+        "mid": 80000,
+        "senior": 110000,
+        "lead": 140000
+      },
+      "top_companies": ["Microsoft", "Google", "Amazon", "Apple", "Netflix", "Uber", "Airbnb", "Spotify"],
+      "recommended_courses": [
+        {
+          "title": "Software Testing and Automation",
+          "platform": "Udemy",
+          "duration": "3 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 72, 75, 78, 81, 84, 87]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior QA Engineer", "QA Lead", "Test Architect", "QA Manager"]
+    },
+    {
+      "role": "Technical Writer",
+      "category": "Documentation",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Technical Writing", "Documentation", "Research", "Communication", "Content Management"],
+      "preferred_skills": ["API Documentation", "Developer Tools", "Markdown", "Git", "Basic Programming"],
+      "average_salary": {
+        "entry": 50000,
+        "mid": 75000,
+        "senior": 105000,
+        "lead": 135000
+      },
+      "top_companies": ["Google", "Microsoft", "Amazon", "Apple", "Atlassian", "GitHub", "Stripe", "Twilio"],
+      "recommended_courses": [
+        {
+          "title": "Technical Writing Certification",
+          "platform": "Google",
+          "duration": "2 months",
+          "level": "Beginner"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 68, 72, 76, 80, 84, 88]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Technical Writer", "Documentation Manager", "Developer Relations", "Content Strategist"]
+    },
+    {
+      "role": "Blockchain Developer",
+      "category": "Blockchain",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Blockchain Fundamentals", "Smart Contracts", "Solidity", "Web3", "Cryptography"],
+      "preferred_skills": ["DeFi", "NFTs", "Layer 2 Solutions", "Security Auditing", "dApp Development"],
+      "average_salary": {
+        "entry": 80000,
+        "mid": 120000,
+        "senior": 160000,
+        "lead": 200000
+      },
+      "top_companies": ["Coinbase", "Binance", "ConsenSys", "Chainlink", "Polygon", "OpenSea", "Uniswap", "Compound"],
+      "recommended_courses": [
+        {
+          "title": "Ethereum and Solidity Complete Course",
+          "platform": "Udemy",
+          "duration": "4 months",
+          "level": "Intermediate to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [40, 55, 85, 78, 70, 75, 82]
+      },
+      "job_outlook": "Volatile but Growing",
+      "remote_friendly": true,
+      "career_paths": ["Senior Blockchain Developer", "Blockchain Architect", "DeFi Protocol Lead", "Web3 Startup Founder"]
+    },
+    {
+      "role": "IoT Engineer",
+      "category": "Internet of Things",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Embedded Systems", "Hardware Programming", "Sensor Networks", "Communication Protocols", "Data Collection"],
+      "preferred_skills": ["Edge Computing", "Cloud Integration", "Machine Learning", "Industrial Automation"],
+      "average_salary": {
+        "entry": 75000,
+        "mid": 110000,
+        "senior": 150000,
+        "lead": 185000
+      },
+      "top_companies": ["Intel", "Cisco", "GE", "Siemens", "Amazon", "Microsoft", "IBM", "Bosch"],
+      "recommended_courses": [
+        {
+          "title": "Introduction to Internet of Things",
+          "platform": "Coursera",
+          "duration": "3 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [55, 62, 70, 78, 85, 90, 95]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": false,
+      "career_paths": ["Senior IoT Engineer", "IoT Architect", "Product Manager", "IoT Solutions Lead"]
+    },
+    {
+      "role": "AR/VR Developer",
+      "category": "Extended Reality",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Unity", "Unreal Engine", "C#", "3D Mathematics", "Computer Graphics", "Spatial Computing", "SDK Integration"],
+      "preferred_skills": ["OpenXR", "WebXR", "Hand Tracking", "Eye Tracking", "Haptic Feedback", "Optimization"],
+      "average_salary": {
+        "entry": 80000,
+        "mid": 115000,
+        "senior": 155000,
+        "lead": 190000
+      },
+      "top_companies": ["Meta", "Apple", "Microsoft", "Google", "Magic Leap", "Snap", "Unity", "Epic Games"],
+      "recommended_courses": [
+        {
+          "title": "VR Development Fundamentals",
+          "platform": "Udacity",
+          "duration": "4 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [45, 52, 60, 68, 76, 84, 92]
+      },
+      "job_outlook": "Very Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior AR/VR Developer", "XR Technical Director", "Metaverse Architect", "XR Product Manager"]
+    },
+    {
+      "role": "Robotics Engineer",
+      "category": "Robotics",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Robotics Programming", "ROS", "Computer Vision", "Control Systems", "Mechanical Engineering", "Electronics"],
+      "preferred_skills": ["AI/ML", "Path Planning", "SLAM", "Sensor Fusion", "Embedded Systems"],
+      "average_salary": {
+        "entry": 85000,
+        "mid": 125000,
+        "senior": 165000,
+        "lead": 205000
+      },
+      "top_companies": ["Boston Dynamics", "Tesla", "Amazon", "Google", "iRobot", "NVIDIA", "ABB", "KUKA"],
+      "recommended_courses": [
+        {
+          "title": "Robotics Specialization",
+          "platform": "Coursera",
+          "duration": "6 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [50, 58, 66, 74, 82, 88, 94]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": false,
+      "career_paths": ["Senior Robotics Engineer", "Robotics Architect", "AI Robotics Lead", "Robotics Research Director"]
+    },
+    {
+      "role": "Network Engineer",
+      "category": "Networking",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Network Protocols", "Routing", "Switching", "Network Security", "Troubleshooting", "Configuration Management"],
+      "preferred_skills": ["SDN", "Network Automation", "Cloud Networking", "Wireless", "VPN", "Load Balancing"],
+      "average_salary": {
+        "entry": 65000,
+        "mid": 95000,
+        "senior": 130000,
+        "lead": 165000
+      },
+      "top_companies": ["Cisco", "Juniper", "Arista", "Palo Alto Networks", "F5", "Amazon", "Google", "Microsoft"],
+      "recommended_courses": [
+        {
+          "title": "CCNA Certification Course",
+          "platform": "Cisco",
+          "duration": "4 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 72, 75, 78, 81, 84, 87]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Network Engineer", "Network Architect", "Network Security Specialist", "Infrastructure Manager"]
+    },
+    {
+      "role": "Systems Administrator",
+      "category": "System Administration",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["Linux", "Windows Server", "System Configuration", "User Management", "Backup Systems", "Monitoring"],
+      "preferred_skills": ["Virtualization", "Scripting", "Cloud Administration", "Security", "Automation"],
+      "average_salary": {
+        "entry": 55000,
+        "mid": 80000,
+        "senior": 110000,
+        "lead": 140000
+      },
+      "top_companies": ["IBM", "HP", "Dell", "Microsoft", "Amazon", "Google", "Oracle", "VMware"],
+      "recommended_courses": [
+        {
+          "title": "Linux System Administration",
+          "platform": "Linux Academy",
+          "duration": "3 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 67, 70, 73, 76, 79, 82]
+      },
+      "job_outlook": "Stable",
+      "remote_friendly": true,
+      "career_paths": ["Senior Systems Administrator", "DevOps Engineer", "Cloud Engineer", "IT Manager"]
+    },
+    {
+      "role": "Information Security Specialist",
+      "category": "Security",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Security Frameworks", "Risk Management", "Penetration Testing", "Security Auditing", "Compliance", "Incident Response"],
+      "preferred_skills": ["Ethical Hacking", "Forensics", "Threat Modeling", "Security Architecture", "Governance"],
+      "average_salary": {
+        "entry": 75000,
+        "mid": 110000,
+        "senior": 150000,
+        "lead": 185000
+      },
+      "top_companies": ["Deloitte", "EY", "KPMG", "PwC", "IBM", "Accenture", "Booz Allen", "CISA"],
+      "recommended_courses": [
+        {
+          "title": "Certified Information Security Manager",
+          "platform": "ISACA",
+          "duration": "6 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [78, 82, 86, 90, 94, 97, 99]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior Security Specialist", "Security Architect", "Security Manager", "CISO"]
+    },
+    {
+      "role": "Data Analyst",
+      "category": "Data & Analytics",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["SQL", "Excel", "Data Visualization", "Statistical Analysis", "Python", "R", "Tableau", "Power BI"],
+      "preferred_skills": ["Machine Learning", "Big Data", "ETL", "Database Design", "Business Intelligence"],
+      "average_salary": {
+        "entry": 55000,
+        "mid": 80000,
+        "senior": 110000,
+        "lead": 140000
+      },
+      "top_companies": ["Microsoft", "Google", "Amazon", "IBM", "Oracle", "SAS", "Tableau", "Palantir"],
+      "recommended_courses": [
+        {
+          "title": "Data Analyst Professional Certificate",
+          "platform": "Google",
+          "duration": "6 months",
+          "level": "Beginner"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [75, 78, 82, 86, 90, 93, 96]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Data Analyst", "Data Scientist", "Business Intelligence Analyst", "Analytics Manager"]
+    },
+    {
+      "role": "Software Architect",
+      "category": "Software Development",
+      "experience_level": "Senior to Lead",
+      "required_skills": ["System Design", "Architecture Patterns", "Technology Strategy", "Code Review", "Technical Leadership", "Solution Design"],
+      "preferred_skills": ["Microservices", "Cloud Architecture", "Performance Optimization", "Security Architecture", "Team Leadership"],
+      "average_salary": {
+        "entry": 120000,
+        "mid": 160000,
+        "senior": 200000,
+        "lead": 250000
+      },
+      "top_companies": ["Google", "Amazon", "Microsoft", "Apple", "Meta", "Netflix", "Uber", "Twitter"],
+      "recommended_courses": [
+        {
+          "title": "Software Architecture Specialization",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 73, 77, 81, 85, 89, 93]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Principal Architect", "Chief Architect", "Engineering Director", "CTO"]
+    },
+    {
+      "role": "Embedded Systems Engineer",
+      "category": "Hardware",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["C/C++", "Microcontrollers", "Real-time Systems", "Hardware Debugging", "Firmware Development", "Electronics"],
+      "preferred_skills": ["RTOS", "Low-power Design", "Communication Protocols", "Signal Processing", "PCB Design"],
+      "average_salary": {
+        "entry": 75000,
+        "mid": 110000,
+        "senior": 145000,
+        "lead": 180000
+      },
+      "top_companies": ["Intel", "Qualcomm", "Texas Instruments", "ARM", "NVIDIA", "Broadcom", "Marvell", "Analog Devices"],
+      "recommended_courses": [
+        {
+          "title": "Embedded Systems Programming",
+          "platform": "Udacity",
+          "duration": "4 months",
+          "level": "Intermediate to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 68, 72, 76, 80, 84, 88]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": false,
+      "career_paths": ["Senior Embedded Engineer", "Hardware Architect", "Firmware Lead", "IoT Systems Engineer"]
+    },
+    {
+      "role": "Digital Marketing Specialist",
+      "category": "Marketing Technology",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["SEO", "SEM", "Social Media Marketing", "Content Marketing", "Analytics", "Email Marketing"],
+      "preferred_skills": ["Marketing Automation", "A/B Testing", "Conversion Optimization", "Programmatic Advertising", "CRM"],
+      "average_salary": {
+        "entry": 45000,
+        "mid": 70000,
+        "senior": 95000,
+        "lead": 125000
+      },
+      "top_companies": ["Google", "Meta", "Amazon", "HubSpot", "Salesforce", "Adobe", "Mailchimp", "Shopify"],
+      "recommended_courses": [
+        {
+          "title": "Digital Marketing Specialization",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [80, 82, 85, 88, 91, 94, 97]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Digital Marketer", "Marketing Manager", "Growth Hacker", "Marketing Director"]
+    },
+    {
+      "role": "Scrum Master",
+      "category": "Project Management",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Agile Methodologies", "Scrum Framework", "Team Facilitation", "Project Management", "Communication", "Conflict Resolution"],
+      "preferred_skills": ["Coaching", "Lean Principles", "Kanban", "Scaled Agile", "Change Management"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 100000,
+        "senior": 130000,
+        "lead": 160000
+      },
+      "top_companies": ["Spotify", "ING", "Salesforce", "Adobe", "Microsoft", "IBM", "Atlassian", "SAP"],
+      "recommended_courses": [
+        {
+          "title": "Certified ScrumMaster Course",
+          "platform": "Scrum Alliance",
+          "duration": "2 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [75, 78, 82, 86, 89, 92, 95]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Scrum Master", "Agile Coach", "Project Manager", "Delivery Manager"]
+    },
+    {
+      "role": "Solutions Architect",
+      "category": "Enterprise Architecture",
+      "experience_level": "Senior to Lead",
+      "required_skills": ["Solution Design", "Enterprise Architecture", "Technology Integration", "Stakeholder Management", "Requirements Analysis"],
+      "preferred_skills": ["Cloud Platforms", "Microservices", "API Design", "Security Architecture", "Cost Optimization"],
+      "average_salary": {
+        "entry": 110000,
+        "mid": 150000,
+        "senior": 190000,
+        "lead": 230000
+      },
+      "top_companies": ["AWS", "Microsoft", "Google", "IBM", "Oracle", "Salesforce", "Accenture", "Deloitte"],
+      "recommended_courses": [
+        {
+          "title": "AWS Solutions Architect Professional",
+          "platform": "AWS",
+          "duration": "3 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [68, 73, 79, 85, 90, 95, 98]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Principal Solutions Architect", "Enterprise Architect", "Technical Director", "CTO"]
+    },
+    {
+      "role": "IT Project Manager",
+      "category": "Project Management",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Project Management", "Risk Management", "Budget Management", "Team Leadership", "Communication", "Stakeholder Management"],
+      "preferred_skills": ["Agile", "PMI Certification", "Resource Planning", "Vendor Management", "Technical Understanding"],
+      "average_salary": {
+        "entry": 75000,
+        "mid": 105000,
+        "senior": 140000,
+        "lead": 175000
+      },
+      "top_companies": ["IBM", "Accenture", "Deloitte", "Microsoft", "Oracle", "HP", "Cisco", "Dell"],
+      "recommended_courses": [
+        {
+          "title": "Project Management Professional (PMP)",
+          "platform": "PMI",
+          "duration": "4 months",
+          "level": "Intermediate to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 73, 76, 80, 84, 87, 90]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Project Manager", "Program Manager", "PMO Director", "Operations Manager"]
+    },
+    {
+      "role": "Salesforce Developer",
+      "category": "CRM Development",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Salesforce Platform", "Apex", "Visualforce", "Lightning Components", "SOQL", "Workflow Rules"],
+      "preferred_skills": ["Integration", "Lightning Web Components", "Einstein Analytics", "CPQ", "Field Service"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 100000,
+        "senior": 135000,
+        "lead": 170000
+      },
+      "top_companies": ["Salesforce", "Deloitte", "Accenture", "PwC", "IBM", "Capgemini", "Cognizant", "TCS"],
+      "recommended_courses": [
+        {
+          "title": "Salesforce Developer Certification",
+          "platform": "Trailhead",
+          "duration": "4 months",
+          "level": "Beginner to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 70, 76, 82, 87, 91, 95]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Salesforce Developer", "Salesforce Architect", "Technical Lead", "Solution Architect"]
+    },
+    {
+      "role": "Cloud Security Engineer",
+      "category": "Cloud Security",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Cloud Security", "Identity Management", "Compliance", "Risk Assessment", "Security Architecture", "Incident Response"],
+      "preferred_skills": ["Zero Trust", "Container Security", "DevSecOps", "Threat Detection", "Automation"],
+      "average_salary": {
+        "entry": 85000,
+        "mid": 125000,
+        "senior": 165000,
+        "lead": 205000
+      },
+      "top_companies": ["Amazon", "Microsoft", "Google", "Palo Alto Networks", "CrowdStrike", "Okta", "Zscaler", "Fortinet"],
+      "recommended_courses": [
+        {
+          "title": "AWS Certified Security Specialty",
+          "platform": "AWS",
+          "duration": "3 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [60, 68, 77, 86, 93, 97, 100]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior Cloud Security Engineer", "Security Architect", "CISO", "Security Consultant"]
+    },
+    {
+      "role": "Platform Engineer",
+      "category": "Platform Engineering",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Infrastructure as Code", "CI/CD", "Container Orchestration", "Monitoring", "Automation", "Cloud Platforms"],
+      "preferred_skills": ["Service Mesh", "GitOps", "Observability", "Developer Experience", "Platform Design"],
+      "average_salary": {
+        "entry": 90000,
+        "mid": 130000,
+        "senior": 170000,
+        "lead": 210000
+      },
+      "top_companies": ["Netflix", "Uber", "Airbnb", "Spotify", "Stripe", "GitHub", "Shopify", "Atlassian"],
+      "recommended_courses": [
+        {
+          "title": "Platform Engineering Fundamentals",
+          "platform": "Linux Foundation",
+          "duration": "4 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [45, 55, 68, 80, 90, 96, 100]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior Platform Engineer", "Platform Architect", "Infrastructure Director", "Engineering Manager"]
+    },
+    {
+      "role": "API Developer",
+      "category": "API Development",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["RESTful APIs", "GraphQL", "API Design", "Documentation", "Testing", "Version Control"],
+      "preferred_skills": ["Microservices", "API Gateway", "OAuth", "Rate Limiting", "Monitoring", "SDK Development"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 105000,
+        "senior": 140000,
+        "lead": 175000
+      },
+      "top_companies": ["Stripe", "Twilio", "SendGrid", "Postman", "GitHub", "Slack", "Zoom", "Dropbox"],
+      "recommended_courses": [
+        {
+          "title": "API Development and Management",
+          "platform": "Udemy",
+          "duration": "3 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 74, 79, 84, 89, 93, 97]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior API Developer", "API Architect", "Integration Lead", "Developer Relations"]
+    },
+    {
+      "role": "Computer Vision Engineer",
+      "category": "Computer Vision",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Computer Vision", "OpenCV", "Deep Learning", "Image Processing", "Python", "Mathematics"],
+      "preferred_skills": ["CUDA", "TensorRT", "3D Vision", "Object Detection", "Segmentation", "OCR"],
+      "average_salary": {
+        "entry": 95000,
+        "mid": 135000,
+        "senior": 175000,
+        "lead": 215000
+      },
+      "top_companies": ["Tesla", "NVIDIA", "Apple", "Google", "Meta", "Amazon", "Microsoft", "Waymo"],
+      "recommended_courses": [
+        {
+          "title": "Computer Vision Specialization",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [55, 65, 75, 85, 92, 97, 100]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior CV Engineer", "AI Research Scientist", "Computer Vision Lead", "Autonomous Systems Engineer"]
+    },
+    {
+      "role": "ETL Developer",
+      "category": "Data Integration",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["ETL Tools", "SQL", "Data Warehousing", "Data Modeling", "Scripting", "Database Systems"],
+      "preferred_skills": ["Big Data", "Cloud ETL", "Real-time Processing", "Data Quality", "Performance Tuning"],
+      "average_salary": {
+        "entry": 65000,
+        "mid": 95000,
+        "senior": 125000,
+        "lead": 155000
+      },
+      "top_companies": ["IBM", "Microsoft", "Oracle", "Informatica", "Talend", "Pentaho", "SAS", "Snowflake"],
+      "recommended_courses": [
+        {
+          "title": "ETL Testing and Data Warehousing",
+          "platform": "Udemy",
+          "duration": "3 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [68, 71, 75, 79, 83, 87, 91]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior ETL Developer", "Data Engineer", "BI Developer", "Data Architect"]
+    },
+    {
+      "role": "Release Manager",
+      "category": "Release Management",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Release Planning", "Change Management", "Risk Assessment", "Coordination", "Documentation", "Process Improvement"],
+      "preferred_skills": ["CI/CD", "DevOps", "Automation", "Version Control", "Stakeholder Management"],
+      "average_salary": {
+        "entry": 75000,
+        "mid": 105000,
+        "senior": 140000,
+        "lead": 175000
+      },
+      "top_companies": ["Microsoft", "Google", "Amazon", "Apple", "Netflix", "Uber", "Spotify", "Adobe"],
+      "recommended_courses": [
+        {
+          "title": "Release Management Best Practices",
+          "platform": "LinkedIn Learning",
+          "duration": "2 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 68, 72, 76, 80, 84, 88]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Release Manager", "DevOps Manager", "Program Manager", "Operations Director"]
+    },
+    {
+      "role": "Security Architect",
+      "category": "Security Architecture",
+      "experience_level": "Senior to Lead",
+      "required_skills": ["Security Architecture", "Risk Management", "Threat Modeling", "Security Standards", "Compliance", "Design Patterns"],
+      "preferred_skills": ["Zero Trust", "Cloud Security", "Identity Architecture", "Secure Development", "Governance"],
+      "average_salary": {
+        "entry": 110000,
+        "mid": 155000,
+        "senior": 200000,
+        "lead": 245000
+      },
+      "top_companies": ["Cisco", "Palo Alto Networks", "Fortinet", "IBM", "Microsoft", "Amazon", "Google", "Deloitte"],
+      "recommended_courses": [
+        {
+          "title": "SABSA Security Architecture",
+          "platform": "SABSA Institute",
+          "duration": "6 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 75, 81, 87, 92, 96, 99]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Principal Security Architect", "Chief Security Officer", "Security Consultant", "Security Director"]
+    },
+    {
+      "role": "Low-Code/No-Code Developer",
+      "category": "Low-Code Development",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["Low-Code Platforms", "Business Process Analysis", "Workflow Design", "Integration", "Testing", "User Training"],
+      "preferred_skills": ["API Integration", "Custom Code", "Database Design", "UI/UX", "Project Management"],
+      "average_salary": {
+        "entry": 60000,
+        "mid": 85000,
+        "senior": 115000,
+        "lead": 145000
+      },
+      "top_companies": ["Microsoft", "Salesforce", "ServiceNow", "OutSystems", "Mendix", "Appian", "Bubble", "Zapier"],
+      "recommended_courses": [
+        {
+          "title": "Power Platform Fundamentals",
+          "platform": "Microsoft",
+          "duration": "3 months",
+          "level": "Beginner"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [40, 50, 65, 78, 87, 93, 98]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Low-Code Developer", "Citizen Developer Lead", "Business Analyst", "Process Automation Specialist"]
+    },
+  {
+    "role": "Growth Engineer",
+    "category": "Growth Engineering",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["A/B Testing", "Analytics", "Product Metrics", "SQL", "Python", "Data Analysis", "Experimentation"],
+    "preferred_skills": ["Machine Learning", "Statistical Analysis", "Product Management", "Marketing Automation", "Conversion Optimization"],
+    "average_salary": {
+      "entry": 85000,
+      "mid": 120000,
+      "senior": 160000,
+      "lead": 200000
+    },
+    "top_companies": ["Facebook", "Uber", "Airbnb", "Pinterest", "Shopify", "Stripe", "Netflix", "Spotify"],
+    "recommended_courses": [
+      {
+        "title": "Growth Hacking Specialization",
+        "platform": "Coursera",
+        "duration": "3 months",
+        "level": "Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [50, 60, 72, 82, 89, 94, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Growth Engineer", "Growth Lead", "Product Manager", "VP of Growth"]
+  },
+  {
+    "role": "Site Reliability Engineer",
+    "category": "Site Reliability",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["System Administration", "Monitoring", "Incident Response", "Automation", "Linux", "Scripting", "Performance Tuning"],
+    "preferred_skills": ["Kubernetes", "Prometheus", "Grafana", "Terraform", "Service Mesh", "Chaos Engineering"],
+    "average_salary": {
+      "entry": 95000,
+      "mid": 135000,
+      "senior": 175000,
+      "lead": 220000
+    },
+    "top_companies": ["Google", "Netflix", "Uber", "Dropbox", "LinkedIn", "Twitter", "Spotify", "Airbnb"],
+    "recommended_courses": [
+      {
+        "title": "Site Reliability Engineering",
+        "platform": "Google Cloud",
+        "duration": "4 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [65, 72, 79, 86, 91, 95, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior SRE", "Infrastructure Architect", "Engineering Manager", "Principal Engineer"]
+  },
+  {
+    "role": "Technical Writer",
+    "category": "Documentation",
+    "experience_level": "Entry to Mid",
+    "required_skills": ["Technical Writing", "Documentation Tools", "API Documentation", "Content Management", "Research", "Communication"],
+    "preferred_skills": ["Markdown", "Git", "Developer Tools", "UX Writing", "Information Architecture", "Video Production"],
+    "average_salary": {
+      "entry": 55000,
+      "mid": 80000,
+      "senior": 110000,
+      "lead": 140000
+    },
+    "top_companies": ["Microsoft", "Google", "Amazon", "Atlassian", "GitHub", "Stripe", "Twilio", "MongoDB"],
+    "recommended_courses": [
+      {
+        "title": "Technical Writing Fundamentals",
+        "platform": "Google",
+        "duration": "2 months",
+        "level": "Beginner"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [60, 63, 67, 71, 75, 79, 83]
+    },
+    "job_outlook": "Good",
+    "remote_friendly": true,
+    "career_paths": ["Senior Technical Writer", "Documentation Manager", "Developer Advocate", "Content Strategist"]
+  },
+  {
+    "role": "Database Administrator",
+    "category": "Database Management",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["Database Design", "SQL", "Performance Tuning", "Backup & Recovery", "Security", "Monitoring"],
+    "preferred_skills": ["Cloud Databases", "NoSQL", "Data Warehousing", "Automation", "High Availability", "Disaster Recovery"],
+    "average_salary": {
+      "entry": 65000,
+      "mid": 95000,
+      "senior": 125000,
+      "lead": 160000
+    },
+    "top_companies": ["Oracle", "Microsoft", "IBM", "Amazon", "Google", "MongoDB", "Snowflake", "Databricks"],
+    "recommended_courses": [
+      {
+        "title": "Database Administration Fundamentals",
+        "platform": "Microsoft",
+        "duration": "4 months",
+        "level": "Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [70, 72, 75, 78, 81, 84, 87]
+    },
+    "job_outlook": "Stable",
+    "remote_friendly": true,
+    "career_paths": ["Senior DBA", "Database Architect", "Data Platform Engineer", "Database Manager"]
+  },
+  {
+    "role": "Quality Assurance Engineer",
+    "category": "Quality Assurance",
+    "experience_level": "Entry to Mid",
+    "required_skills": ["Test Planning", "Manual Testing", "Automated Testing", "Bug Tracking", "Test Documentation", "Regression Testing"],
+    "preferred_skills": ["Selenium", "API Testing", "Performance Testing", "Mobile Testing", "CI/CD Integration", "Test Frameworks"],
+    "average_salary": {
+      "entry": 55000,
+      "mid": 80000,
+      "senior": 110000,
+      "lead": 140000
+    },
+    "top_companies": ["Microsoft", "Google", "Amazon", "Apple", "Meta", "Netflix", "Uber", "Airbnb"],
+    "recommended_courses": [
+      {
+        "title": "Software Testing Fundamentals",
+        "platform": "Udemy",
+        "duration": "3 months",
+        "level": "Beginner to Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [65, 68, 72, 76, 80, 84, 88]
+    },
+    "job_outlook": "Good",
+    "remote_friendly": true,
+    "career_paths": ["Senior QA Engineer", "QA Lead", "Test Automation Architect", "QA Manager"]
+  },
+  {
+    "role": "Business Intelligence Developer",
+    "category": "Business Intelligence",
+    "experience_level": "Entry to Mid",
+    "required_skills": ["SQL", "Data Warehousing", "ETL", "Reporting Tools", "Data Modeling", "Dashboard Development"],
+    "preferred_skills": ["Power BI", "Tableau", "SSRS", "Data Visualization", "OLAP", "Business Analysis"],
+    "average_salary": {
+      "entry": 65000,
+      "mid": 90000,
+      "senior": 120000,
+      "lead": 150000
+    },
+    "top_companies": ["Microsoft", "IBM", "Oracle", "SAP", "Tableau", "Qlik", "SAS", "Informatica"],
+    "recommended_courses": [
+      {
+        "title": "Business Intelligence Analyst",
+        "platform": "Microsoft",
+        "duration": "4 months",
+        "level": "Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [70, 73, 77, 81, 85, 89, 93]
+    },
+    "job_outlook": "Good",
+    "remote_friendly": true,
+    "career_paths": ["Senior BI Developer", "BI Architect", "Data Analyst", "BI Manager"]
+  },
+  {
+    "role": "Hardware Engineer",
+    "category": "Hardware Engineering",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Circuit Design", "PCB Design", "Electronics", "Signal Processing", "Hardware Testing", "CAD Tools"],
+    "preferred_skills": ["FPGA", "ASIC Design", "RF Design", "Power Electronics", "Thermal Analysis", "EMC/EMI"],
+    "average_salary": {
+      "entry": 75000,
+      "mid": 110000,
+      "senior": 145000,
+      "lead": 180000
+    },
+    "top_companies": ["Intel", "NVIDIA", "Apple", "Qualcomm", "Broadcom", "Texas Instruments", "AMD", "Analog Devices"],
+    "recommended_courses": [
+      {
+        "title": "Hardware Design and Verification",
+        "platform": "Udacity",
+        "duration": "5 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [60, 63, 67, 71, 75, 79, 83]
+    },
+    "job_outlook": "Good",
+    "remote_friendly": false,
+    "career_paths": ["Senior Hardware Engineer", "Hardware Architect", "Engineering Manager", "Hardware Design Lead"]
+  },
+  {
+    "role": "IT Support Specialist",
+    "category": "IT Support",
+    "experience_level": "Entry to Mid",
+    "required_skills": ["Technical Support", "Troubleshooting", "Windows/Mac Support", "Network Basics", "Help Desk", "Customer Service"],
+    "preferred_skills": ["Active Directory", "Mobile Device Management", "Remote Support", "ITIL", "Security Basics", "Cloud Services"],
+    "average_salary": {
+      "entry": 40000,
+      "mid": 60000,
+      "senior": 80000,
+      "lead": 100000
+    },
+    "top_companies": ["IBM", "HP", "Dell", "Microsoft", "Apple", "Best Buy", "Geek Squad", "CDW"],
+    "recommended_courses": [
+      {
+        "title": "Google IT Support Certificate",
+        "platform": "Coursera",
+        "duration": "6 months",
+        "level": "Beginner"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [65, 67, 70, 73, 76, 79, 82]
+    },
+    "job_outlook": "Stable",
+    "remote_friendly": true,
+    "career_paths": ["Senior IT Support", "IT Specialist", "System Administrator", "IT Manager"]
+  },
+  {
+    "role": "Blockchain Developer",
+    "category": "Blockchain",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Blockchain Technology", "Smart Contracts", "Solidity", "Web3", "Cryptography", "Distributed Systems"],
+    "preferred_skills": ["Ethereum", "Bitcoin", "DeFi", "NFTs", "IPFS", "Consensus Algorithms"],
+    "average_salary": {
+      "entry": 90000,
+      "mid": 130000,
+      "senior": 170000,
+      "lead": 210000
+    },
+    "top_companies": ["Coinbase", "Binance", "Ethereum Foundation", "ConsenSys", "Ripple", "Chainlink", "Polygon", "Solana"],
+    "recommended_courses": [
+      {
+        "title": "Blockchain Specialization",
+        "platform": "Coursera",
+        "duration": "4 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [30, 45, 70, 85, 75, 80, 88]
+    },
+    "job_outlook": "Good",
+    "remote_friendly": true,
+    "career_paths": ["Senior Blockchain Developer", "Blockchain Architect", "DeFi Engineer", "Crypto Product Manager"]
+  },
+  {
+    "role": "Game Developer",
+    "category": "Game Development",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["Game Engines", "C#", "C++", "Game Design", "3D Graphics", "Animation"],
+    "preferred_skills": ["Unity", "Unreal Engine", "Mobile Game Development", "VR/AR", "Multiplayer Systems", "Game Physics"],
+    "average_salary": {
+      "entry": 60000,
+      "mid": 85000,
+      "senior": 115000,
+      "lead": 145000
+    },
+    "top_companies": ["Electronic Arts", "Activision Blizzard", "Epic Games", "Ubisoft", "Riot Games", "Valve", "Nintendo", "Sony"],
+    "recommended_courses": [
+      {
+        "title": "Game Development Fundamentals",
+        "platform": "Unity Learn",
+        "duration": "4 months",
+        "level": "Beginner to Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [60, 65, 72, 78, 84, 89, 94]
+    },
+    "job_outlook": "Good",
+    "remote_friendly": true,
+    "career_paths": ["Senior Game Developer", "Game Designer", "Technical Artist", "Game Director"]
+  },
+  {
+    "role": "Automation Engineer",
+    "category": "Automation",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Process Automation", "Scripting", "RPA Tools", "Workflow Design", "Testing Automation", "Integration"],
+    "preferred_skills": ["UiPath", "Automation Anywhere", "Blue Prism", "Python", "API Integration", "AI/ML"],
+    "average_salary": {
+      "entry": 70000,
+      "mid": 100000,
+      "senior": 135000,
+      "lead": 170000
+    },
+    "top_companies": ["UiPath", "Automation Anywhere", "Blue Prism", "Microsoft", "IBM", "Accenture", "Deloitte", "KPMG"],
+    "recommended_courses": [
+      {
+        "title": "RPA Developer Foundation",
+        "platform": "UiPath Academy",
+        "duration": "3 months",
+        "level": "Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [55, 65, 75, 83, 89, 94, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Automation Engineer", "RPA Architect", "Process Improvement Manager", "Automation Lead"]
+  },
+  {
+    "role": "Backend Developer",
+    "category": "Backend Development",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["Server-side Programming", "APIs", "Databases", "System Design", "Security", "Performance Optimization"],
+    "preferred_skills": ["Microservices", "Cloud Services", "DevOps", "Message Queues", "Caching", "Load Balancing"],
+    "average_salary": {
+      "entry": 70000,
+      "mid": 105000,
+      "senior": 140000,
+      "lead": 180000
+    },
+    "top_companies": ["Google", "Amazon", "Microsoft", "Meta", "Netflix", "Uber", "Airbnb", "Stripe"],
+    "recommended_courses": [
+      {
+        "title": "Backend Development Specialization",
+        "platform": "Coursera",
+        "duration": "4 months",
+        "level": "Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [80, 83, 87, 90, 93, 96, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Backend Developer", "Backend Architect", "Engineering Manager", "Principal Engineer"]
+  },
+  {
+    "role": "Frontend Developer",
+    "category": "Frontend Development",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["HTML/CSS", "JavaScript", "React/Vue/Angular", "Responsive Design", "Version Control", "Web Performance"],
+    "preferred_skills": ["TypeScript", "Testing Frameworks", "Build Tools", "Progressive Web Apps", "Accessibility", "UI/UX"],
+    "average_salary": {
+      "entry": 65000,
+      "mid": 95000,
+      "senior": 130000,
+      "lead": 165000
+    },
+    "top_companies": ["Google", "Meta", "Netflix", "Airbnb", "Spotify", "Shopify", "GitHub", "Figma"],
+    "recommended_courses": [
+      {
+        "title": "Frontend Developer Nanodegree",
+        "platform": "Udacity",
+        "duration": "4 months",
+        "level": "Beginner to Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [85, 87, 90, 92, 94, 96, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Frontend Developer", "Frontend Architect", "UI Engineer", "Engineering Manager"]
+  },
+  {
+    "role": "UI/UX Designer",
+    "category": "Design",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["User Research", "Wireframing", "Prototyping", "Design Tools", "Usability Testing", "Visual Design"],
+    "preferred_skills": ["Figma", "Sketch", "Adobe Creative Suite", "Design Systems", "Information Architecture", "Interaction Design"],
+    "average_salary": {
+      "entry": 60000,
+      "mid": 90000,
+      "senior": 125000,
+      "lead": 160000
+    },
+    "top_companies": ["Apple", "Google", "Meta", "Adobe", "Figma", "Airbnb", "Uber", "Spotify"],
+    "recommended_courses": [
+      {
+        "title": "UI/UX Design Specialization",
+        "platform": "Coursera",
+        "duration": "4 months",
+        "level": "Beginner to Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [75, 78, 82, 86, 90, 93, 96]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Designer", "Design Lead", "Product Designer", "Design Director"]
+  },
+  {
+    "role": "Product Manager",
+    "category": "Product Management",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Product Strategy", "Market Research", "Roadmap Planning", "Stakeholder Management", "Analytics", "Communication"],
+    "preferred_skills": ["Agile", "User Research", "A/B Testing", "Technical Background", "Business Strategy", "Leadership"],
+    "average_salary": {
+      "entry": 90000,
+      "mid": 130000,
+      "senior": 170000,
+      "lead": 220000
+    },
+    "top_companies": ["Google", "Meta", "Amazon", "Microsoft", "Apple", "Netflix", "Uber", "Airbnb"],
+    "recommended_courses": [
+      {
+        "title": "Product Management Fundamentals",
+        "platform": "Coursera",
+        "duration": "3 months",
+        "level": "Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [70, 75, 81, 87, 91, 95, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Product Manager", "Principal PM", "VP of Product", "Chief Product Officer"]
+  },
+  {
+    "role": "Quantum Computing Engineer",
+    "category": "Quantum Computing",
+    "experience_level": "Senior to Lead",
+    "required_skills": ["Quantum Mechanics", "Quantum Algorithms", "Programming", "Mathematics", "Physics", "Research"],
+    "preferred_skills": ["Qiskit", "Cirq", "Q#", "Quantum Machine Learning", "Error Correction", "Quantum Hardware"],
+    "average_salary": {
+      "entry": 120000,
+      "mid": 160000,
+      "senior": 200000,
+      "lead": 250000
+    },
+    "top_companies": ["IBM", "Google", "Microsoft", "Amazon", "Rigetti", "IonQ", "D-Wave", "Honeywell"],
+    "recommended_courses": [
+      {
+        "title": "Introduction to Quantum Computing",
+        "platform": "IBM Qiskit",
+        "duration": "6 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [20, 25, 35, 50, 65, 78, 88]
+    },
+    "job_outlook": "Emerging",
+    "remote_friendly": true,
+    "career_paths": ["Principal Quantum Engineer", "Quantum Research Scientist", "Quantum Architect", "CTO"]
+  },
+  {
+    "role": "Edge Computing Engineer",
+    "category": "Edge Computing",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Edge Architecture", "Distributed Systems", "IoT", "Real-time Processing", "Network Optimization", "Security"],
+    "preferred_skills": ["5G", "AI at Edge", "Container Orchestration", "Kubernetes", "Microservices", "Edge Analytics"],
+    "average_salary": {
+      "entry": 85000,
+      "mid": 120000,
+      "senior": 160000,
+      "lead": 200000
+    },
+    "top_companies": ["AWS", "Microsoft", "Google", "Intel", "NVIDIA", "Cisco", "Dell", "HPE"],
+    "recommended_courses": [
+      {
+        "title": "Edge Computing Fundamentals",
+        "platform": "Linux Foundation",
+        "duration": "3 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [40, 52, 66, 78, 87, 93, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Edge Engineer", "Edge Architect", "IoT Solutions Lead", "Edge Computing Director"]
+  },
+  {
+    "role": "MLOps Engineer",
+    "category": "MLOps",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Machine Learning", "DevOps", "CI/CD", "Model Deployment", "Monitoring", "Cloud Platforms"],
+    "preferred_skills": ["Kubernetes", "Docker", "MLflow", "Kubeflow", "Model Versioning", "Data Pipeline"],
+    "average_salary": {
+      "entry": 90000,
+      "mid": 130000,
+      "senior": 170000,
+      "lead": 210000
+    },
+    "top_companies": ["Google", "Amazon", "Microsoft", "Netflix", "Uber", "Airbnb", "Spotify", "LinkedIn"],
+    "recommended_courses": [
+      {
+        "title": "MLOps Specialization",
+        "platform": "Coursera",
+        "duration": "4 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [30, 45, 68, 82, 91, 96, 100]
+    },
+    "job_outlook": "Exceptional",
+    "remote_friendly": true,
+    "career_paths": ["Senior MLOps Engineer", "ML Platform Engineer", "AI Infrastructure Lead", "ML Engineering Manager"]
+  },
+  {
+    "role": "Mobile App Developer",
+    "category": "Mobile Development",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["Mobile Development", "iOS/Android", "Mobile UI/UX", "App Store Optimization", "Testing", "Performance"],
+    "preferred_skills": ["React Native", "Flutter", "Swift", "Kotlin", "Cross-platform", "Mobile Security"],
+    "average_salary": {
+      "entry": 70000,
+      "mid": 100000,
+      "senior": 135000,
+      "lead": 170000
+    },
+    "top_companies": ["Apple", "Google", "Meta", "Uber", "Airbnb", "Spotify", "WhatsApp", "Instagram"],
+    "recommended_courses": [
+      {
+        "title": "iOS App Development",
+        "platform": "Apple Developer",
+        "duration": "4 months",
+        "level": "Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [75, 78, 82, 86, 89, 92, 95]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Mobile Developer", "Mobile Architect", "Engineering Manager", "Mobile Team Lead"]
+  },
+  {
+    "role": "Data Privacy Officer",
+    "category": "Data Privacy",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Data Privacy Laws", "GDPR", "Risk Assessment", "Compliance", "Privacy by Design", "Policy Development"],
+    "preferred_skills": ["CCPA", "Privacy Impact Assessment", "Data Mapping", "Privacy Engineering", "Legal Knowledge"],
+    "average_salary": {
+      "entry": 80000,
+      "mid": 115000,
+      "senior": 155000,
+      "lead": 195000
+    },
+    "top_companies": ["Microsoft", "Google", "Meta", "Apple", "Amazon", "IBM", "Salesforce", "Adobe"],
+    "recommended_courses": [
+      {
+        "title": "Certified Information Privacy Professional",
+        "platform": "IAPP",
+        "duration": "4 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [45, 58, 72, 84, 91, 96, 99]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Privacy Officer", "Chief Privacy Officer", "Privacy Consultant", "Privacy Director"]
+  },
+  {
+    "role": "Full Stack Developer",
+    "category": "Full Stack Development",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["Frontend Technologies", "Backend Technologies", "Databases", "APIs", "Version Control", "Web Fundamentals"],
+    "preferred_skills": ["Cloud Services", "DevOps", "Testing", "System Design", "Mobile Development", "UI/UX"],
+    "average_salary": {
+      "entry": 75000,
+      "mid": 110000,
+      "senior": 145000,
+      "lead": 185000
+    },
+    "top_companies": ["Google", "Meta", "Amazon", "Microsoft", "Netflix", "Airbnb", "Stripe", "GitHub"],
+    "recommended_courses": [
+      {
+        "title": "Full Stack Web Development",
+        "platform": "FreeCodeCamp",
+        "duration": "6 months",
+        "level": "Beginner to Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [85, 87, 90, 92, 94, 96, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Full Stack Developer", "Tech Lead", "Engineering Manager", "Solutions Architect"]
+}
+  ]
+}

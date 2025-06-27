@@ -1,0 +1,4044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Career Advisor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --sidebar-bg: #111827;
+            --sidebar-hover: #374151;
+            --border-color: #e5e7eb;
+            --text-muted: #6b7280;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            background: var(--sidebar-bg);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .sidebar-brand i {
+            font-size: 2rem;
+            margin-right: 0.75rem;
+        }
+
+        .sidebar-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 0.75rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--sidebar-hover);
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            margin: 0.25rem 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.1), transparent);
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            transform: scaleY(1);
+        }
+
+        .nav-link i {
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-text {
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed .nav-text,
+        .sidebar.collapsed .sidebar-brand span {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar.collapsed + .main-content {
+            margin-left: 80px;
+        }
+
+        .content-header {
+            background: white;
+            padding: 2rem 3rem;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+        }
+
+        .content-body {
+            padding: 3rem;
+        }
+
+        .component {
+            display: none;
+        }
+
+        .component.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+        /* Stats Section */
+.stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 200px;
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    text-align: center;
+}
+
+.stat-card h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.stat-card p {
+    color: var(--dark);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Filter Section */
+.filter-section {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--card-shadow);
+}
+
+/* Skill Details */
+.skill-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.info-box {
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    padding: 1.2rem;
+}
+
+.info-box h6 {
+    color: var(--secondary);
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+}
+
+.trend-badge {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.trend-up {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+}
+
+.trend-down {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+/* Word Cloud */
+.word-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 1.5rem;
+    min-height: 300px;
+}
+
+.cloud-item {
+    padding: 0.6rem 1.2rem;
+    border-radius: 2rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+.cloud-item:hover {
+    transform: scale(1.08);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Role List */
+.role-list {
+    display: grid;
+    gap: 12px;
+}
+
+.role-item {
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.role-item i {
+    color: var(--primary);
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+/* Skill Categories */
+.skill-category-card {
+    height: 100%;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    background: white;
+    box-shadow: var(--card-shadow);
+}
+        .scroll-down-btn.visible {
+    display: inline-block;
+}
+        .scroll-down-btn {
+          cursor: pointer;
+    margin-right: 15px;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+    display: none;
+}
+
+.scroll-down-btn:hover {
+    transform: translateY(2px);
+    color: var(--primary);
+    opacity: 1;
+}
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .card:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 1rem 1rem 0 0 !important;
+            padding: 1.5rem;
+            border: none;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .btn {
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 0.75rem;
+            border: 2px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+
+        .badge {
+            border-radius: 0.5rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            transform: scale(1.05);
+        }
+
+        .chart-container {
+            height: 400px;
+            border-radius: 1rem;
+            background: white;
+            padding: 1rem;
+        }
+
+        .progress {
+            height: 1rem;
+            border-radius: 0.5rem;
+            background: var(--light);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 0.5rem;
+        }
+
+      .chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+
+.chatbot-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: white;
+  font-size: 24px;
+  transition: transform 0.3s ease;
+}
+
+.chatbot-icon img {
+  width: 30px;
+  height: 30px;
+  filter: brightness(0) invert(1);
+}
+.chatbot-icon:hover {
+  transform: scale(1.05);
+}
+
+
+.chatbot-window {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 350px;
+  height: 450px;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
+}
+.chatbot-header {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+    .chatbot-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    overflow-y: auto;
+    max-height: 300px; /* Adjust height as needed */
+}
+
+ .message {
+    display: flex;
+    max-width: 85%;
+    animation: fadeIn 0.3s ease;
+}
+.message.bot {
+    align-self: flex-start;
+}
+
+.message.user {
+    align-self: flex-end;
+}
+.message .text {
+    padding: 12px 15px;
+    border-radius: 18px;
+    line-height: 1.4;
+}
+
+.message.bot .text {
+    background: #f0f2f5;
+    border-radius: 0 18px 18px 18px;
+}
+
+
+.message.user {
+  text-align: right;
+}
+
+.message.user .text {
+    background: #6366f1;
+    color: white;
+    border-radius: 18px 0 18px 18px;
+}
+
+
+        .chatbot-toggle-icon {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .chatbot-toggle-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .collapsible-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            background-color: #f8f9fa;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .collapsible-header:hover {
+            background-color: #e9ecef;
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .collapsible-content.expanded {
+            max-height: 1000px; /* Adjust based on content */
+        }
+        
+        .course-link {
+            display: block;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--dark);
+        }
+        
+        .course-link:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .course-link i {
+            margin-right: 0.75rem;
+            color: var(--primary);
+        }
+        
+        .badge {
+            font-size: 0.8em;
+            padding: 0.4em 0.7em;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .message.bot .avatar {
+            background: transparent !important;
+        }
+
+        .message.user .avatar {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+        }
+
+        .message.bot .avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+        .message .text {
+            padding: 1rem 1.5rem;
+            border-radius: 1.5rem;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .message.bot .text {
+            background: #f3f4f6;
+            color: var(--dark);
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message.user .avatar {
+            margin-left: 1rem;
+            margin-right: 0;
+        }
+
+        .message.user .text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 12px;
+            border-top: 1px solid var(--border-color);
+            background: white;
+        }
+
+        .chat-input input {
+  flex: 1;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  padding: 8px 12px;
+  margin-right: 8px;
+   font-size: 0.9rem;
+}
+
+      .chat-input button {
+  background: #6366f1;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+        .welcome-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-section h1 {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-section p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #6366f1;
+}
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .content-header,
+            .content-body {
+                padding: 1.5rem;
+            }
+            
+            .chatbot-container {
+                width: 350px;
+                right: 1rem;
+                bottom: 1rem;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .chatbot-window {
+    width: 20vw;
+    right: 7.5vw;
+    bottom: 80px;
+    height: 60vh;
+  }
+  .chatbot-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+        /* Add to existing CSS */
+.company-icons {
+    font-size: 1.5rem;
+}
+
+/* Add to existing CSS */
+.company-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.company-icon:hover {
+    transform: scale(1.2);
+    background: rgba(99, 102, 241, 0.2);
+}
+
+.salary-range > div {
+    padding: 0.25rem 0;
+    border-bottom: 1px dashed #e9ecef;
+}
+
+#insights-container .card {
+    overflow: visible;
+}
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <!-- Replace the robot icon with a professional image -->
+<a href="#" class="sidebar-brand">
+  <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Career Advisor" class="sidebar-icon">
+  <span>AI Career Advisor</span>
+</a>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <div class="sidebar-nav">
+            <div class="nav-item">
+                <a href="#" class="nav-link active" data-component="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-component="trending-skills">
+                    <i class="fas fa-fire"></i>
+                    <span class="nav-text">Trending Skills</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-component="role-courses">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span class="nav-text">Role-based Courses</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-component="job-insights">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="nav-text">Job Insights</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-component="resume-analyzer">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="nav-text">Resume Analyzer</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-component="career-path">
+                    <i class="fas fa-road"></i>
+                    <span class="nav-text">Career Path</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Component -->
+        <div id="dashboard" class="component active">
+            <div class="content-header">
+                <h1>Welcome to AI Career Advisor</h1>
+                <p class="mb-0 text-muted">Get personalized career guidance, skill recommendations, and resume analysis powered by AI</p>
+            </div>
+            <div class="content-body">
+                <div class="welcome-section">
+                    <h1>Your Career Journey Starts Here</h1>
+                    <p>Discover trending skills, analyze your resume, and get personalized career recommendations</p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <button class="btn btn-primary btn-lg px-4" onclick="switchComponent('resume-analyzer')">
+                            <i class="fas fa-file-upload me-2"></i>Analyze Resume
+                        </button>
+                        <button class="btn btn-outline-primary btn-lg px-4" onclick="switchComponent('career-path')">
+                            <i class="fas fa-road me-2"></i>Career Path
+                        </button>
+                        <button class="btn btn-outline-primary btn-lg px-4" onclick="switchComponent('trending-skills')">
+                            <i class="fas fa-fire me-2"></i>Trending Skills
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                                <h5>50,000+</h5>
+                                <p class="text-muted">Professionals Helped</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <i class="fas fa-briefcase fa-3x text-success mb-3"></i>
+                                <h5>52+</h5>
+                                <p class="text-muted">Career Paths</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <i class="fas fa-chart-line fa-3x text-warning mb-3"></i>
+                                <h5>95%</h5>
+                                <p class="text-muted">Success Rate</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trending Skills Component -->
+        <!-- Trending Skills Component -->
+<div id="trending-skills" class="component">
+    <div class="content-header">
+        <h1><i class="fas fa-fire me-2"></i>Trending Skills Analysis</h1>
+        <p class="mb-0 text-muted">Discover the most in-demand skills with interactive visualizations</p>
+    </div>
+    <div class="content-body">
+        <!-- Stats Section -->
+        <div class="stats-container mb-4">
+            <div class="stat-card">
+                <h3>300+</h3>
+                <p>Skills Tracked</p>
+            </div>
+            <div class="stat-card">
+                <h3>52</h3>
+                <p>Career Roles</p>
+            </div>
+            <div class="stat-card">
+                <h3>95%</h3>
+                <p>Growth in Tech Skills</p>
+            </div>
+            <div class="stat-card">
+                <h3>2025</h3>
+                <p>Latest Data</p>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <!-- Main Chart -->
+            <div class="col-lg-8 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Top Skills by Demand & Growth</h5>
+                        <div id="skills-bar-chart" class="chart-container"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Salary Distribution -->
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Salary Distribution by Role</h5>
+                        <div id="salary-distribution" class="chart-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Word Cloud -->
+            <div class="col-lg-5 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Skill Popularity Cloud</h5>
+                        <div class="word-cloud text-center p-4">
+                            <!-- Dynamically generated -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Skill Details -->
+            <div class="col-lg-7 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <h5>Skill Analysis: AI & Machine Learning</h5>
+                                <div class="skill-info-grid mt-3">
+                                    <div class="info-box">
+                                        <h6>Demand Trend</h6>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-chart-line text-success me-2"></i>
+                                            <span class="fw-bold">High Growth</span>
+                                            <span class="trend-badge trend-up">+42%</span>
+                                        </div>
+                                    </div>
+                                    <div class="info-box">
+                                        <h6>Avg. Salary</h6>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-dollar-sign text-warning me-2"></i>
+                                            <span class="fw-bold">$145,000</span>
+                                        </div>
+                                    </div>
+                                    <div class="info-box">
+                                        <h6>Role Coverage</h6>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-briefcase text-primary me-2"></i>
+                                            <span class="fw-bold">87% of Tech Roles</span>
+                                        </div>
+                                    </div>
+                                    <div class="info-box">
+                                        <h6>Learning Resources</h6>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-graduation-cap text-info me-2"></i>
+                                            <span class="fw-bold">1200+ Courses</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Top Related Roles</h5>
+                                <div class="role-list mt-3">
+                                    <div class="role-item">
+                                        <i class="fas fa-robot"></i>
+                                        <div>
+                                            <div class="fw-bold">AI Engineer</div>
+                                            <div class="small text-muted">$180,000 avg.</div>
+                                        </div>
+                                    </div>
+                                    <div class="role-item">
+                                        <i class="fas fa-brain"></i>
+                                        <div>
+                                            <div class="fw-bold">ML Engineer</div>
+                                            <div class="small text-muted">$165,000 avg.</div>
+                                        </div>
+                                    </div>
+                                    <div class="role-item">
+                                        <i class="fas fa-chart-line"></i>
+                                        <div>
+                                            <div class="fw-bold">Data Scientist</div>
+                                            <div class="small text-muted">$145,000 avg.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Skill Categories -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Skills by Category</h5>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <div class="skill-category-card">
+                            <h6><i class="fas fa-code me-2 text-primary"></i>Development</h6>
+                            <div class="mt-2">
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">JavaScript</span>
+                                <span class="skill-tag">React</span>
+                                <span class="skill-tag">Node.js</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="skill-category-card">
+                            <h6><i class="fas fa-cloud me-2 text-info"></i>Cloud</h6>
+                            <div class="mt-2">
+                                <span class="skill-tag">AWS</span>
+                                <span class="skill-tag">Azure</span>
+                                <span class="skill-tag">Kubernetes</span>
+                                <span class="skill-tag">Docker</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="skill-category-card">
+                            <h6><i class="fas fa-database me-2 text-warning"></i>Data & AI</h6>
+                            <div class="mt-2">
+                                <span class="skill-tag">Machine Learning</span>
+                                <span class="skill-tag">TensorFlow</span>
+                                <span class="skill-tag">SQL</span>
+                                <span class="skill-tag">PyTorch</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="skill-category-card">
+                            <h6><i class="fas fa-shield-alt me-2 text-danger"></i>Security</h6>
+                            <div class="mt-2">
+                                <span class="skill-tag">Cybersecurity</span>
+                                <span class="skill-tag">Ethical Hacking</span>
+                                <span class="skill-tag">Encryption</span>
+                                <span class="skill-tag">Compliance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <!-- Role-based Courses Component -->
+        <div id="role-courses" class="component">
+            <div class="content-header">
+                <h1><i class="fas fa-graduation-cap me-2"></i>Role-based Courses</h1>
+                <p class="mb-0 text-muted">Find the perfect courses for your target role</p>
+            </div>
+            <div class="content-body">
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <select id="category-filter" class="form-select">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" id="role-search" class="form-control" placeholder="Search roles...">
+                    </div>
+                </div>
+                <div id="roles-container" class="row"></div>
+            </div>
+        </div>
+
+      <!-- Job Insights Component -->
+<div id="job-insights" class="component">
+    <div class="content-header">
+        <h1><i class="fas fa-chart-line me-2"></i>Job Insights</h1>
+        <p class="mb-0 text-muted">Market insights and trends for different roles</p>
+    </div>
+    <div class="content-body">
+        <!-- Add filter section -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <select id="insights-category-filter" class="form-select">
+                    <option value="">All Categories</option>
+                    <!-- Categories will be populated by JavaScript -->
+                </select>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" id="insights-role-search" class="form-control" placeholder="Search roles...">
+                    <button class="btn btn-primary" type="button" id="insights-search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="insights-container" class="row"></div>
+    </div>
+</div>
+
+        <!-- Resume Analyzer Component -->
+        <div id="resume-analyzer" class="component">
+            <div class="content-header">
+                <h1><i class="fas fa-file-alt me-2"></i>Resume Analyzer</h1>
+                <p class="mb-0 text-muted">Get AI-powered analysis of your resume</p>
+            </div>
+            <div class="content-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Upload Your Resume</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="resume-form" enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <label for="resume-file" class="form-label">Upload Resume (PDF)</label>
+                                        <input class="form-control" type="file" id="resume-file" name="resume" accept=".pdf" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="target-role" class="form-label">Target Role</label>
+                                        <select id="target-role" class="form-select" name="target_role" required>
+                                            <option value="">Select a target role</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-magic me-2"></i>Analyze Resume
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="resume-results" class="card" style="display: none;">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Analysis Results</h5>
+                                    <span id="match-percentage" class="badge bg-success fs-6"></span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <h6>Role: <span id="result-role" class="fw-bold text-primary"></span></h6>
+                                    <div class="salary-range">
+                                        Salary Range: 
+                                        <span id="salary-entry" class="fw-bold"></span> - 
+                                        <span id="salary-lead" class="fw-bold"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="card border-success">
+                                            <div class="card-header bg-success text-white">
+                                                <i class="fas fa-check me-2"></i>Matched Skills
+                                            </div>
+                                            <div class="card-body">
+                                                <ul id="matched-skills" class="list-group list-group-flush"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card border-danger">
+                                            <div class="card-header bg-danger text-white">
+                                                <i class="fas fa-times me-2"></i>Missing Skills
+                                            </div>
+                                            <div class="card-body">
+                                                <ul id="missing-skills" class="list-group list-group-flush"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="improvement-plan">
+                                    <h6 class="mb-3">Improvement Plan:</h6>
+                                    <div id="improvement-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Career Path Component -->
+        <div id="career-path" class="component">
+            <div class="content-header">
+                <h1><i class="fas fa-road me-2"></i>Career Path Advisor</h1>
+                <p class="mb-0 text-muted">Discover your personalized career progression path</p>
+            </div>
+            <div class="content-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Career Assessment</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="career-assessment">
+                                    <div class="mb-3">
+                                        <label class="form-label">Current Skills</label>
+                                        <textarea id="skills-input" class="form-control" rows="3" placeholder="Python, SQL, Machine Learning, React..."></textarea>
+                                        <div class="form-text">Separate skills with commas</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Experience Level</label>
+                                        <select id="experience-level" class="form-select">
+                                            <option value="">Select Experience</option>
+                                            <option value="Entry">Entry Level (0-2 years)</option>
+                                            <option value="Mid">Mid Level (2-5 years)</option>
+                                            <option value="Senior">Senior Level (5+ years)</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Preferred Industry</label>
+                                        <select id="industry" class="form-select">
+                                            <option value="">Select Industry</option>
+                                            <option value="Technology">Technology</option>
+                                            <option value="Finance">Finance</option>
+                                            <option value="Healthcare">Healthcare</option>
+                                            <option value="Education">Education</option>
+                                            <option value="E-commerce">E-commerce</option>
+                                            <option value="Gaming">Gaming</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Career Goals</label>
+                                        <textarea id="goals" class="form-control" rows="2" placeholder="What are your career aspirations?"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-compass me-2"></i>Get Career Path
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div id="career-path-results" class="card" style="display: none;">
+                            <div class="card-header">
+                                <h5 class="mb-0">Your Career Path</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="path-visualization" class="mb-4"></div>
+                                <div id="path-recommendations"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="chatbot-container">
+  <div class="chatbot-icon" onclick="toggleChatbot()">
+    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="AI Career Assistant">
+  </div>
+</div>
+<div class="chatbot-container" onclick="toggleChatbot()">
+  <div class="chatbot-icon">
+    <i class="fas fa-comments"></i>
+  </div>
+</div>
+    <div class="chatbot-window" id="chatbot-window" style="display:none;">
+    <div class="chatbot-header">
+        <h6>AI Career Assistant</h6>
+        <div>
+            <i class="fas fa-arrow-down scroll-down-btn" onclick="scrollChatToBottom()"></i>
+            <i class="fas fa-times close-icon" onclick="toggleChatbot()"></i>
+        </div>
+    </div>
+    <div class="chatbot-body">
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot">
+                <div class="text">
+                    Hello! I'm your AI Career Assistant. How can I help you today?
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Ask about careers..." onkeypress="handleChatKeypress(event)">
+            <button onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Embedded career data
+        const careerData = {
+            "metadata": {
+                "title": "Comprehensive Tech Career Guide 2025",
+                "version": "1.0",
+                "last_updated": "2025-06-22",
+                "total_roles": 52,
+                "total_skills": 300,
+                "description": "Complete guide to tech careers with skills, salaries, companies, and growth trends"
+            },
+            "career_roles": [
+                {
+                    "role": "Data Scientist",
+                    "category": "Data & Analytics",
+                    "experience_level": "Mid to Senior",
+                    "required_skills": ["Python", "Pandas", "Machine Learning", "SQL", "Statistics", "R", "NumPy", "Scikit-learn", "Jupyter", "Data Visualization"],
+                    "preferred_skills": ["Deep Learning", "TensorFlow", "PyTorch", "Big Data", "Spark", "Hadoop", "A/B Testing", "Statistical Modeling"],
+                    "average_salary": {
+                        "entry": 85000,
+                        "mid": 120000,
+                        "senior": 165000,
+                        "lead": 200000
+                    },
+                    "top_companies": ["Google", "Amazon", "Meta", "Netflix", "Microsoft", "Apple", "Uber", "Airbnb"],
+                    "recommended_courses": [
+                        {
+                            "title": "IBM Data Science Professional Certificate",
+                            "platform": "Coursera",
+                            "duration": "6 months",
+                            "level": "Beginner to Intermediate"
+                        },
+                        {
+                            "title": "Advanced Machine Learning Specialization",
+                            "platform": "Coursera",
+                            "duration": "4 months",
+                            "level": "Advanced"
+                        }
+                    ],
+                    "growth_trend": {
+                        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+                        "demand_index": [70, 85, 90, 95, 98, 99, 100]
+                    },
+                    "job_outlook": "Excellent",
+                    "remote_friendly": true,
+                    "career_paths": ["Senior Data Scientist", "ML Engineer", "Data Science Manager", "Chief Data Officer"]
+                },
+                {
+                    "role": "AI Engineer",
+                    "category": "Artificial Intelligence",
+                    "experience_level": "Mid to Senior",
+                    "required_skills": ["Python", "TensorFlow", "Deep Learning", "PyTorch", "NLP", "Computer Vision", "Neural Networks", "Mathematics", "Linear Algebra"],
+                    "preferred_skills": ["MLOps", "Kubernetes", "Docker", "Cloud Platforms", "Research", "Paper Implementation", "Model Optimization"],
+                    "average_salary": {
+                        "entry": 95000,
+                        "mid": 135000,
+                        "senior": 180000,
+                        "lead": 220000
+                    },
+                    "top_companies": ["OpenAI", "Tesla", "DeepMind", "Apple", "Google", "Amazon", "Microsoft", "Anthropic"],
+                    "recommended_courses": [
+                        {
+                            "title": "Deep Learning Specialization",
+                            "platform": "Coursera",
+                            "duration": "5 months",
+                            "level": "Intermediate to Advanced"
+                        },
+                        {
+                            "title": "Natural Language Processing Specialization",
+                            "platform": "Coursera",
+                            "duration": "4 months",
+                            "level": "Advanced"
+                        }
+                    ],
+                    "growth_trend": {
+                        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+                        "demand_index": [60, 70, 88, 93, 97, 99, 100]
+                    },
+                    "job_outlook": "Exceptional",
+                    "remote_friendly": true,
+                    "career_paths": ["Senior AI Engineer", "AI Research Scientist", "AI Product Manager", "CTO"]
+                },
+                {
+                    "role": "Software Engineer",
+                    "category": "Software Development",
+                    "experience_level": "Entry to Senior",
+                    "required_skills": ["Programming Languages", "Data Structures", "Algorithms", "Git", "Testing", "Debugging", "Problem Solving"],
+                    "preferred_skills": ["System Design", "Cloud Computing", "DevOps", "Agile", "Code Review", "Database Management"],
+                    "average_salary": {
+                        "entry": 75000,
+                        "mid": 110000,
+                        "senior": 150000,
+                        "lead": 185000
+                    },
+                    "top_companies": ["Google", "Amazon", "Microsoft", "Apple", "Meta", "Netflix", "Uber", "Airbnb"],
+                    "recommended_courses": [
+                        {
+                            "title": "Complete Software Engineering Bootcamp",
+                            "platform": "Udemy",
+                            "duration": "6 months",
+                            "level": "Beginner to Intermediate"
+                        }
+                    ],
+                    "growth_trend": {
+                        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+                        "demand_index": [85, 87, 89, 91, 93, 95, 97]
+                    },
+                    "job_outlook": "Excellent",
+                    "remote_friendly": true,
+                    "career_paths": ["Senior Software Engineer", "Tech Lead", "Engineering Manager", "Architect"]
+                },
+                {
+                    "role": "Frontend Developer",
+                    "category": "Web Development",
+                    "experience_level": "Entry to Senior",
+                    "required_skills": ["HTML", "CSS", "JavaScript", "React", "Vue.js", "Angular", "Responsive Design", "DOM Manipulation"],
+                    "preferred_skills": ["TypeScript", "Webpack", "Sass", "GraphQL", "Testing Frameworks", "PWA", "Performance Optimization"],
+                    "average_salary": {
+                        "entry": 65000,
+                        "mid": 95000,
+                        "senior": 130000,
+                        "lead": 165000
+                    },
+                    "top_companies": ["Google", "Meta", "Netflix", "Airbnb", "Spotify", "Adobe", "Figma", "Shopify"],
+                    "recommended_courses": [
+                        {
+                            "title": "Modern React with Redux",
+                            "platform": "Udemy",
+                            "duration": "3 months",
+                            "level": "Intermediate"
+                        }
+                    ],
+                    "growth_trend": {
+                        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+                        "demand_index": [80, 82, 85, 87, 89, 91, 93]
+                    },
+                    "job_outlook": "Very Good",
+                    "remote_friendly": true,
+                    "career_paths": ["Senior Frontend Developer", "Frontend Architect", "Full Stack Developer", "UI/UX Engineer"]
+                },
+                {
+                    "role": "Backend Developer",
+                    "category": "Web Development",
+                    "experience_level": "Entry to Senior",
+                    "required_skills": ["Server-side Languages", "Databases", "APIs", "Web Frameworks", "Security", "Authentication", "System Architecture"],
+                    "preferred_skills": ["Microservices", "Cloud Services", "Docker", "Kubernetes", "Message Queues", "Caching", "Performance Tuning"],
+                    "average_salary": {
+                        "entry": 70000,
+                        "mid": 105000,
+                        "senior": 140000,
+                        "lead": 175000
+                    },
+                    "top_companies": ["Amazon", "Google", "Microsoft", "Uber", "Twitter", "LinkedIn", "Stripe", "Square"],
+                    "recommended_courses": [
+                        {
+                            "title": "Node.js Complete Course",
+                            "platform": "Udemy",
+                            "duration": "4 months",
+                            "level": "Intermediate"
+                        }
+                    ],
+                    "growth_trend": {
+                        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+                        "demand_index": [82, 84, 86, 88, 90, 92, 94]
+                    },
+                    "job_outlook": "Excellent",
+                    "remote_friendly": true,
+                    "career_paths": ["Senior Backend Developer", "Backend Architect", "Full Stack Developer", "DevOps Engineer"]
+                },
+                {
+                    "role": "Full Stack Developer",
+                    "category": "Web Development",
+                    "experience_level": "Mid to Senior",
+                    "required_skills": ["Frontend Technologies", "Backend Technologies", "Databases", "Version Control", "API Development", "Testing"],
+                    "preferred_skills": ["DevOps", "Cloud Platforms", "System Design", "Mobile Development", "UI/UX Understanding"],
+                    "average_salary": {
+                        "entry": 75000,
+                        "mid": 110000,
+                        "senior": 145000,
+                        "lead": 180000
+                    },
+                    "top_companies": ["Shopify", "GitHub", "Atlassian", "Stripe", "Square", "Twilio", "Dropbox", "Slack"],
+                    "recommended_courses": [
+                        {
+                            "title": "Full Stack Web Development Bootcamp",
+                            "platform": "Udemy",
+                            "duration": "6 months",
+                            "level": "Beginner to Advanced"
+                        }
+                    ],
+                    "growth_trend": {
+                        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+                        "demand_index": [75, 78, 82, 85, 88, 91, 94]
+                    },
+                    "job_outlook": "Excellent",
+                    "remote_friendly": true,
+                    "career_paths": ["Senior Full Stack Developer", "Technical Lead", "Product Engineer", "Startup CTO"]
+                },
+                {
+                    "role": "DevOps Engineer",
+                    "category": "Infrastructure & Operations",
+                    "experience_level": "Mid to Senior",
+                    "required_skills": ["Linux", "Docker", "Kubernetes", "CI/CD", "Cloud Platforms", "Infrastructure as Code", "Monitoring", "Scripting"],
+                    "preferred_skills": ["Terraform", "Ansible", "Jenkins", "Git", "Security", "Performance Optimization", "Troubleshooting"],
+                    "average_salary": {
+                        "entry": 80000,
+                        "mid": 115000,
+                        "senior": 155000,
+                        "lead": 190000
+                    },
+                    "top_companies": ["Amazon", "Google", "Microsoft", "Netflix", "Uber", "Spotify", "Atlassian", "HashiCorp"],
+                    "recommended_courses": [
+                        {
+                            "title": "DevOps Engineer Master Program",
+                            "platform": "Edureka",
+                            "duration": "5 months",
+                            "level": "Intermediate to Advanced"
+                        }
+                    ],
+                    "growth_trend": {
+                        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+                        "demand_index": [70, 75, 82, 87, 92, 96, 98]
+                    },
+                    "job_outlook": "Excellent",
+                    "remote_friendly": true,
+                    "career_paths": ["Senior DevOps Engineer", "Site Reliability Engineer", "Cloud Architect", "Engineering Manager"]
+                },
+                {
+                    "role": "Cloud Architect",
+                    "category": "Infrastructure & Operations",
+                    "experience_level": "Senior to Lead",
+                    "required_skills": ["Cloud Platforms", "System Architecture", "Security", "Networking", "Infrastructure Design", "Cost Optimization"],
+                    "preferred_skills": ["Multi-cloud Strategy", "Serverless", "Microservices", "Compliance", "Disaster Recovery"],
+                    "average_salary": {
+                        "entry": 100000,
+                        "mid": 140000,
+                        "senior": 180000,
+                        "lead": 220000
+                    },
+                    "top_companies": ["Amazon", "Microsoft", "Google", "IBM", "Oracle", "Salesforce", "VMware", "Accenture"],
+                    "recommended_courses": [
+                        {
+                            "title": "AWS Solutions Architect Professional",
+                            "platform": "A Cloud Guru",
+                            "duration": "4 months",
+                            "level": "Advanced"
+                        }
+                    ],
+                    "growth_trend": {
+                        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+                        "demand_index": [65, 72, 80, 87, 93, 97, 99]
+                    },
+                    "job_outlook": "Exceptional",
+                    "remote_friendly": true,
+                    "career_paths": ["Principal Cloud Architect", "Cloud Strategy Director", "CTO", "Independent Consultant"]
+                },
+    {
+      "role": "Cybersecurity Analyst",
+      "category": "Security",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["Network Security", "Risk Assessment", "Incident Response", "Vulnerability Assessment", "Security Tools", "Compliance"],
+      "preferred_skills": ["Penetration Testing", "Forensics", "Threat Intelligence", "SIEM", "Scripting", "Cloud Security"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 100000,
+        "senior": 135000,
+        "lead": 170000
+      },
+      "top_companies": ["IBM", "Cisco", "Palo Alto Networks", "CrowdStrike", "FireEye", "Symantec", "Microsoft", "Amazon"],
+      "recommended_courses": [
+        {
+          "title": "Cybersecurity Specialization",
+          "platform": "Coursera",
+          "duration": "6 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [75, 80, 85, 90, 94, 97, 99]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior Security Analyst", "Security Engineer", "Security Architect", "CISO"]
+    },
+    {
+      "role": "Mobile App Developer",
+      "category": "Mobile Development",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Mobile Frameworks", "UI/UX Design", "API Integration", "App Store Guidelines", "Testing", "Performance Optimization"],
+      "preferred_skills": ["Cross-platform Development", "Backend Integration", "Push Notifications", "Analytics", "CI/CD"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 105000,
+        "senior": 140000,
+        "lead": 175000
+      },
+      "top_companies": ["Google", "Apple", "Meta", "Uber", "Airbnb", "Instagram", "TikTok", "Spotify"],
+      "recommended_courses": [
+        {
+          "title": "React Native Complete Course",
+          "platform": "Udemy",
+          "duration": "4 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [78, 80, 83, 86, 88, 90, 92]
+      },
+      "job_outlook": "Very Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Mobile Developer", "Mobile Architect", "Product Manager", "Mobile Team Lead"]
+    },
+    {
+      "role": "Game Developer",
+      "category": "Gaming",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Game Engines", "Programming Languages", "3D Mathematics", "Physics", "Game Design", "Graphics Programming"],
+      "preferred_skills": ["VR/AR", "Multiplayer Networking", "Performance Optimization", "Platform-specific Development"],
+      "average_salary": {
+        "entry": 65000,
+        "mid": 95000,
+        "senior": 130000,
+        "lead": 165000
+      },
+      "top_companies": ["Epic Games", "Unity", "Blizzard", "EA", "Ubisoft", "Riot Games", "Valve", "Nintendo"],
+      "recommended_courses": [
+        {
+          "title": "Complete Unity Game Development",
+          "platform": "Udemy",
+          "duration": "5 months",
+          "level": "Beginner to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 73, 76, 80, 84, 87, 90]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Game Developer", "Game Architect", "Technical Director", "Game Studio Founder"]
+    },
+    {
+      "role": "Product Manager",
+      "category": "Product Management",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Product Strategy", "Market Research", "User Experience", "Data Analysis", "Project Management", "Communication"],
+      "preferred_skills": ["Technical Background", "A/B Testing", "Analytics Tools", "Design Thinking", "Agile Methodologies"],
+      "average_salary": {
+        "entry": 85000,
+        "mid": 125000,
+        "senior": 165000,
+        "lead": 200000
+      },
+      "top_companies": ["Google", "Amazon", "Meta", "Apple", "Microsoft", "Airbnb", "Uber", "Spotify"],
+      "recommended_courses": [
+        {
+          "title": "Google Product Management Certificate",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [80, 83, 86, 89, 92, 95, 97]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Product Manager", "Group Product Manager", "VP of Product", "CPO"]
+    },
+    {
+      "role": "UX/UI Designer",
+      "category": "Design",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Design Tools", "User Research", "Prototyping", "Wireframing", "Visual Design", "Usability Testing"],
+      "preferred_skills": ["Design Systems", "Accessibility", "Front-end Development", "Animation", "Design Thinking"],
+      "average_salary": {
+        "entry": 60000,
+        "mid": 90000,
+        "senior": 125000,
+        "lead": 160000
+      },
+      "top_companies": ["Apple", "Google", "Adobe", "Figma", "Airbnb", "Uber", "Netflix", "Spotify"],
+      "recommended_courses": [
+        {
+          "title": "Google UX Design Certificate",
+          "platform": "Coursera",
+          "duration": "6 months",
+          "level": "Beginner"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [75, 78, 81, 84, 87, 90, 92]
+      },
+      "job_outlook": "Very Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior UX Designer", "Design Lead", "Design Director", "Head of Design"]
+    },
+    {
+      "role": "Database Administrator",
+      "category": "Data Management",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Database Systems", "SQL", "Performance Tuning", "Backup & Recovery", "Security", "Monitoring"],
+      "preferred_skills": ["Cloud Databases", "NoSQL", "Automation", "Disaster Recovery", "Data Modeling"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 100000,
+        "senior": 135000,
+        "lead": 170000
+      },
+      "top_companies": ["Oracle", "Microsoft", "IBM", "Amazon", "Google", "MongoDB", "Snowflake", "Databricks"],
+      "recommended_courses": [
+        {
+          "title": "Database Administration Specialization",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 72, 75, 78, 82, 85, 88]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior DBA", "Database Architect", "Data Platform Engineer", "Data Engineering Manager"]
+    },
+    {
+      "role": "Data Engineer",
+      "category": "Data & Analytics",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Python", "SQL", "ETL/ELT", "Data Pipelines", "Cloud Platforms", "Big Data Tools", "Data Modeling"],
+      "preferred_skills": ["Apache Spark", "Kafka", "Airflow", "Docker", "Kubernetes", "Stream Processing"],
+      "average_salary": {
+        "entry": 85000,
+        "mid": 120000,
+        "senior": 160000,
+        "lead": 195000
+      },
+      "top_companies": ["Google", "Amazon", "Microsoft", "Netflix", "Uber", "Airbnb", "Spotify", "LinkedIn"],
+      "recommended_courses": [
+        {
+          "title": "Data Engineering Specialization",
+          "platform": "Coursera",
+          "duration": "5 months",
+          "level": "Intermediate to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [68, 75, 83, 90, 95, 98, 100]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior Data Engineer", "Data Architect", "Platform Engineer", "Head of Data Engineering"]
+    },
+    {
+      "role": "Machine Learning Engineer",
+      "category": "Artificial Intelligence",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Python", "Machine Learning", "Deep Learning", "MLOps", "Cloud Platforms", "Model Deployment", "Statistics"],
+      "preferred_skills": ["TensorFlow", "PyTorch", "Kubernetes", "Docker", "Feature Engineering", "Model Monitoring"],
+      "average_salary": {
+        "entry": 100000,
+        "mid": 140000,
+        "senior": 185000,
+        "lead": 225000
+      },
+      "top_companies": ["Google", "Amazon", "Meta", "Apple", "Microsoft", "Tesla", "Uber", "Netflix"],
+      "recommended_courses": [
+        {
+          "title": "Machine Learning Engineering for Production",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 72, 82, 90, 96, 99, 100]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior ML Engineer", "ML Architect", "AI Research Scientist", "Head of ML"]
+    },
+    {
+      "role": "Business Analyst",
+      "category": "Business Intelligence",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["Data Analysis", "SQL", "Excel", "Business Intelligence Tools", "Requirements Gathering", "Process Modeling"],
+      "preferred_skills": ["Python", "R", "Tableau", "Power BI", "Statistical Analysis", "Domain Knowledge"],
+      "average_salary": {
+        "entry": 60000,
+        "mid": 85000,
+        "senior": 115000,
+        "lead": 145000
+      },
+      "top_companies": ["Deloitte", "PwC", "McKinsey", "BCG", "Accenture", "IBM", "Microsoft", "Oracle"],
+      "recommended_courses": [
+        {
+          "title": "Business Analytics Specialization",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [75, 77, 80, 83, 86, 88, 90]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Business Analyst", "Product Manager", "Business Intelligence Manager", "Data Analyst"]
+    },
+    {
+      "role": "Site Reliability Engineer",
+      "category": "Infrastructure & Operations",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Linux", "Scripting", "Monitoring", "Incident Response", "Automation", "System Architecture", "Performance Optimization"],
+      "preferred_skills": ["Kubernetes", "Docker", "Cloud Platforms", "Observability", "Chaos Engineering"],
+      "average_salary": {
+        "entry": 90000,
+        "mid": 130000,
+        "senior": 170000,
+        "lead": 210000
+      },
+      "top_companies": ["Google", "Netflix", "Uber", "Airbnb", "Spotify", "LinkedIn", "Twitter", "Dropbox"],
+      "recommended_courses": [
+        {
+          "title": "Site Reliability Engineering",
+          "platform": "Coursera",
+          "duration": "3 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [60, 68, 76, 84, 91, 96, 98]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior SRE", "Platform Engineer", "Infrastructure Architect", "Engineering Manager"]
+    },
+    {
+      "role": "QA Engineer",
+      "category": "Quality Assurance",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Testing Methodologies", "Test Automation", "Bug Tracking", "Test Planning", "Quality Processes"],
+      "preferred_skills": ["Selenium", "API Testing", "Performance Testing", "CI/CD", "Scripting Languages"],
+      "average_salary": {
+        "entry": 55000,
+        "mid": 80000,
+        "senior": 110000,
+        "lead": 140000
+      },
+      "top_companies": ["Microsoft", "Google", "Amazon", "Apple", "Netflix", "Uber", "Airbnb", "Spotify"],
+      "recommended_courses": [
+        {
+          "title": "Software Testing and Automation",
+          "platform": "Udemy",
+          "duration": "3 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 72, 75, 78, 81, 84, 87]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior QA Engineer", "QA Lead", "Test Architect", "QA Manager"]
+    },
+    {
+      "role": "Technical Writer",
+      "category": "Documentation",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Technical Writing", "Documentation", "Research", "Communication", "Content Management"],
+      "preferred_skills": ["API Documentation", "Developer Tools", "Markdown", "Git", "Basic Programming"],
+      "average_salary": {
+        "entry": 50000,
+        "mid": 75000,
+        "senior": 105000,
+        "lead": 135000
+      },
+      "top_companies": ["Google", "Microsoft", "Amazon", "Apple", "Atlassian", "GitHub", "Stripe", "Twilio"],
+      "recommended_courses": [
+        {
+          "title": "Technical Writing Certification",
+          "platform": "Google",
+          "duration": "2 months",
+          "level": "Beginner"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 68, 72, 76, 80, 84, 88]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Technical Writer", "Documentation Manager", "Developer Relations", "Content Strategist"]
+    },
+    {
+      "role": "IoT Engineer",
+      "category": "Internet of Things",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Embedded Systems", "Hardware Programming", "Sensor Networks", "Communication Protocols", "Data Collection"],
+      "preferred_skills": ["Edge Computing", "Cloud Integration", "Machine Learning", "Industrial Automation"],
+      "average_salary": {
+        "entry": 75000,
+        "mid": 110000,
+        "senior": 150000,
+        "lead": 185000
+      },
+      "top_companies": ["Intel", "Cisco", "GE", "Siemens", "Amazon", "Microsoft", "IBM", "Bosch"],
+      "recommended_courses": [
+        {
+          "title": "Introduction to Internet of Things",
+          "platform": "Coursera",
+          "duration": "3 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [55, 62, 70, 78, 85, 90, 95]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": false,
+      "career_paths": ["Senior IoT Engineer", "IoT Architect", "Product Manager", "IoT Solutions Lead"]
+    },
+    {
+      "role": "AR/VR Developer",
+      "category": "Extended Reality",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Unity", "Unreal Engine", "C#", "3D Mathematics", "Computer Graphics", "Spatial Computing", "SDK Integration"],
+      "preferred_skills": ["OpenXR", "WebXR", "Hand Tracking", "Eye Tracking", "Haptic Feedback", "Optimization"],
+      "average_salary": {
+        "entry": 80000,
+        "mid": 115000,
+        "senior": 155000,
+        "lead": 190000
+      },
+      "top_companies": ["Meta", "Apple", "Microsoft", "Google", "Magic Leap", "Snap", "Unity", "Epic Games"],
+      "recommended_courses": [
+        {
+          "title": "VR Development Fundamentals",
+          "platform": "Udacity",
+          "duration": "4 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [45, 52, 60, 68, 76, 84, 92]
+      },
+      "job_outlook": "Very Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior AR/VR Developer", "XR Technical Director", "Metaverse Architect", "XR Product Manager"]
+    },
+    {
+      "role": "Robotics Engineer",
+      "category": "Robotics",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Robotics Programming", "ROS", "Computer Vision", "Control Systems", "Mechanical Engineering", "Electronics"],
+      "preferred_skills": ["AI/ML", "Path Planning", "SLAM", "Sensor Fusion", "Embedded Systems"],
+      "average_salary": {
+        "entry": 85000,
+        "mid": 125000,
+        "senior": 165000,
+        "lead": 205000
+      },
+      "top_companies": ["Boston Dynamics", "Tesla", "Amazon", "Google", "iRobot", "NVIDIA", "ABB", "KUKA"],
+      "recommended_courses": [
+        {
+          "title": "Robotics Specialization",
+          "platform": "Coursera",
+          "duration": "6 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [50, 58, 66, 74, 82, 88, 94]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": false,
+      "career_paths": ["Senior Robotics Engineer", "Robotics Architect", "AI Robotics Lead", "Robotics Research Director"]
+    },
+    {
+      "role": "Network Engineer",
+      "category": "Networking",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Network Protocols", "Routing", "Switching", "Network Security", "Troubleshooting", "Configuration Management"],
+      "preferred_skills": ["SDN", "Network Automation", "Cloud Networking", "Wireless", "VPN", "Load Balancing"],
+      "average_salary": {
+        "entry": 65000,
+        "mid": 95000,
+        "senior": 130000,
+        "lead": 165000
+      },
+      "top_companies": ["Cisco", "Juniper", "Arista", "Palo Alto Networks", "F5", "Amazon", "Google", "Microsoft"],
+      "recommended_courses": [
+        {
+          "title": "CCNA Certification Course",
+          "platform": "Cisco",
+          "duration": "4 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 72, 75, 78, 81, 84, 87]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Network Engineer", "Network Architect", "Network Security Specialist", "Infrastructure Manager"]
+    },
+    {
+      "role": "Systems Administrator",
+      "category": "System Administration",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["Linux", "Windows Server", "System Configuration", "User Management", "Backup Systems", "Monitoring"],
+      "preferred_skills": ["Virtualization", "Scripting", "Cloud Administration", "Security", "Automation"],
+      "average_salary": {
+        "entry": 55000,
+        "mid": 80000,
+        "senior": 110000,
+        "lead": 140000
+      },
+      "top_companies": ["IBM", "HP", "Dell", "Microsoft", "Amazon", "Google", "Oracle", "VMware"],
+      "recommended_courses": [
+        {
+          "title": "Linux System Administration",
+          "platform": "Linux Academy",
+          "duration": "3 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 67, 70, 73, 76, 79, 82]
+      },
+      "job_outlook": "Stable",
+      "remote_friendly": true,
+      "career_paths": ["Senior Systems Administrator", "DevOps Engineer", "Cloud Engineer", "IT Manager"]
+    },
+    {
+      "role": "Information Security Specialist",
+      "category": "Security",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Security Frameworks", "Risk Management", "Penetration Testing", "Security Auditing", "Compliance", "Incident Response"],
+      "preferred_skills": ["Ethical Hacking", "Forensics", "Threat Modeling", "Security Architecture", "Governance"],
+      "average_salary": {
+        "entry": 75000,
+        "mid": 110000,
+        "senior": 150000,
+        "lead": 185000
+      },
+      "top_companies": ["Deloitte", "EY", "KPMG", "PwC", "IBM", "Accenture", "Booz Allen", "CISA"],
+      "recommended_courses": [
+        {
+          "title": "Certified Information Security Manager",
+          "platform": "ISACA",
+          "duration": "6 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [78, 82, 86, 90, 94, 97, 99]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior Security Specialist", "Security Architect", "Security Manager", "CISO"]
+    },
+    {
+      "role": "Data Analyst",
+      "category": "Data & Analytics",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["SQL", "Excel", "Data Visualization", "Statistical Analysis", "Python", "R", "Tableau", "Power BI"],
+      "preferred_skills": ["Machine Learning", "Big Data", "ETL", "Database Design", "Business Intelligence"],
+      "average_salary": {
+        "entry": 55000,
+        "mid": 80000,
+        "senior": 110000,
+        "lead": 140000
+      },
+      "top_companies": ["Microsoft", "Google", "Amazon", "IBM", "Oracle", "SAS", "Tableau", "Palantir"],
+      "recommended_courses": [
+        {
+          "title": "Data Analyst Professional Certificate",
+          "platform": "Google",
+          "duration": "6 months",
+          "level": "Beginner"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [75, 78, 82, 86, 90, 93, 96]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Data Analyst", "Data Scientist", "Business Intelligence Analyst", "Analytics Manager"]
+    },
+    {
+      "role": "Software Architect",
+      "category": "Software Development",
+      "experience_level": "Senior to Lead",
+      "required_skills": ["System Design", "Architecture Patterns", "Technology Strategy", "Code Review", "Technical Leadership", "Solution Design"],
+      "preferred_skills": ["Microservices", "Cloud Architecture", "Performance Optimization", "Security Architecture", "Team Leadership"],
+      "average_salary": {
+        "entry": 120000,
+        "mid": 160000,
+        "senior": 200000,
+        "lead": 250000
+      },
+      "top_companies": ["Google", "Amazon", "Microsoft", "Apple", "Meta", "Netflix", "Uber", "Twitter"],
+      "recommended_courses": [
+        {
+          "title": "Software Architecture Specialization",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 73, 77, 81, 85, 89, 93]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Principal Architect", "Chief Architect", "Engineering Director", "CTO"]
+    },
+    {
+      "role": "Embedded Systems Engineer",
+      "category": "Hardware",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["C/C++", "Microcontrollers", "Real-time Systems", "Hardware Debugging", "Firmware Development", "Electronics"],
+      "preferred_skills": ["RTOS", "Low-power Design", "Communication Protocols", "Signal Processing", "PCB Design"],
+      "average_salary": {
+        "entry": 75000,
+        "mid": 110000,
+        "senior": 145000,
+        "lead": 180000
+      },
+      "top_companies": ["Intel", "Qualcomm", "Texas Instruments", "ARM", "NVIDIA", "Broadcom", "Marvell", "Analog Devices"],
+      "recommended_courses": [
+        {
+          "title": "Embedded Systems Programming",
+          "platform": "Udacity",
+          "duration": "4 months",
+          "level": "Intermediate to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 68, 72, 76, 80, 84, 88]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": false,
+      "career_paths": ["Senior Embedded Engineer", "Hardware Architect", "Firmware Lead", "IoT Systems Engineer"]
+    },
+    {
+      "role": "Digital Marketing Specialist",
+      "category": "Marketing Technology",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["SEO", "SEM", "Social Media Marketing", "Content Marketing", "Analytics", "Email Marketing"],
+      "preferred_skills": ["Marketing Automation", "A/B Testing", "Conversion Optimization", "Programmatic Advertising", "CRM"],
+      "average_salary": {
+        "entry": 45000,
+        "mid": 70000,
+        "senior": 95000,
+        "lead": 125000
+      },
+      "top_companies": ["Google", "Meta", "Amazon", "HubSpot", "Salesforce", "Adobe", "Mailchimp", "Shopify"],
+      "recommended_courses": [
+        {
+          "title": "Digital Marketing Specialization",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [80, 82, 85, 88, 91, 94, 97]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Digital Marketer", "Marketing Manager", "Growth Hacker", "Marketing Director"]
+    },
+    {
+      "role": "Scrum Master",
+      "category": "Project Management",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Agile Methodologies", "Scrum Framework", "Team Facilitation", "Project Management", "Communication", "Conflict Resolution"],
+      "preferred_skills": ["Coaching", "Lean Principles", "Kanban", "Scaled Agile", "Change Management"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 100000,
+        "senior": 130000,
+        "lead": 160000
+      },
+      "top_companies": ["Spotify", "ING", "Salesforce", "Adobe", "Microsoft", "IBM", "Atlassian", "SAP"],
+      "recommended_courses": [
+        {
+          "title": "Certified ScrumMaster Course",
+          "platform": "Scrum Alliance",
+          "duration": "2 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [75, 78, 82, 86, 89, 92, 95]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Scrum Master", "Agile Coach", "Project Manager", "Delivery Manager"]
+    },
+    {
+      "role": "Solutions Architect",
+      "category": "Enterprise Architecture",
+      "experience_level": "Senior to Lead",
+      "required_skills": ["Solution Design", "Enterprise Architecture", "Technology Integration", "Stakeholder Management", "Requirements Analysis"],
+      "preferred_skills": ["Cloud Platforms", "Microservices", "API Design", "Security Architecture", "Cost Optimization"],
+      "average_salary": {
+        "entry": 110000,
+        "mid": 150000,
+        "senior": 190000,
+        "lead": 230000
+      },
+      "top_companies": ["AWS", "Microsoft", "Google", "IBM", "Oracle", "Salesforce", "Accenture", "Deloitte"],
+      "recommended_courses": [
+        {
+          "title": "AWS Solutions Architect Professional",
+          "platform": "AWS",
+          "duration": "3 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [68, 73, 79, 85, 90, 95, 98]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Principal Solutions Architect", "Enterprise Architect", "Technical Director", "CTO"]
+    },
+    {
+      "role": "IT Project Manager",
+      "category": "Project Management",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Project Management", "Risk Management", "Budget Management", "Team Leadership", "Communication", "Stakeholder Management"],
+      "preferred_skills": ["Agile", "PMI Certification", "Resource Planning", "Vendor Management", "Technical Understanding"],
+      "average_salary": {
+        "entry": 75000,
+        "mid": 105000,
+        "senior": 140000,
+        "lead": 175000
+      },
+      "top_companies": ["IBM", "Accenture", "Deloitte", "Microsoft", "Oracle", "HP", "Cisco", "Dell"],
+      "recommended_courses": [
+        {
+          "title": "Project Management Professional (PMP)",
+          "platform": "PMI",
+          "duration": "4 months",
+          "level": "Intermediate to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 73, 76, 80, 84, 87, 90]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Project Manager", "Program Manager", "PMO Director", "Operations Manager"]
+    },
+    {
+      "role": "Salesforce Developer",
+      "category": "CRM Development",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["Salesforce Platform", "Apex", "Visualforce", "Lightning Components", "SOQL", "Workflow Rules"],
+      "preferred_skills": ["Integration", "Lightning Web Components", "Einstein Analytics", "CPQ", "Field Service"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 100000,
+        "senior": 135000,
+        "lead": 170000
+      },
+      "top_companies": ["Salesforce", "Deloitte", "Accenture", "PwC", "IBM", "Capgemini", "Cognizant", "TCS"],
+      "recommended_courses": [
+        {
+          "title": "Salesforce Developer Certification",
+          "platform": "Trailhead",
+          "duration": "4 months",
+          "level": "Beginner to Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 70, 76, 82, 87, 91, 95]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Salesforce Developer", "Salesforce Architect", "Technical Lead", "Solution Architect"]
+    },
+    {
+      "role": "Cloud Security Engineer",
+      "category": "Cloud Security",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Cloud Security", "Identity Management", "Compliance", "Risk Assessment", "Security Architecture", "Incident Response"],
+      "preferred_skills": ["Zero Trust", "Container Security", "DevSecOps", "Threat Detection", "Automation"],
+      "average_salary": {
+        "entry": 85000,
+        "mid": 125000,
+        "senior": 165000,
+        "lead": 205000
+      },
+      "top_companies": ["Amazon", "Microsoft", "Google", "Palo Alto Networks", "CrowdStrike", "Okta", "Zscaler", "Fortinet"],
+      "recommended_courses": [
+        {
+          "title": "AWS Certified Security Specialty",
+          "platform": "AWS",
+          "duration": "3 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [60, 68, 77, 86, 93, 97, 100]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior Cloud Security Engineer", "Security Architect", "CISO", "Security Consultant"]
+    },
+    {
+      "role": "Platform Engineer",
+      "category": "Platform Engineering",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Infrastructure as Code", "CI/CD", "Container Orchestration", "Monitoring", "Automation", "Cloud Platforms"],
+      "preferred_skills": ["Service Mesh", "GitOps", "Observability", "Developer Experience", "Platform Design"],
+      "average_salary": {
+        "entry": 90000,
+        "mid": 130000,
+        "senior": 170000,
+        "lead": 210000
+      },
+      "top_companies": ["Netflix", "Uber", "Airbnb", "Spotify", "Stripe", "GitHub", "Shopify", "Atlassian"],
+      "recommended_courses": [
+        {
+          "title": "Platform Engineering Fundamentals",
+          "platform": "Linux Foundation",
+          "duration": "4 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [45, 55, 68, 80, 90, 96, 100]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior Platform Engineer", "Platform Architect", "Infrastructure Director", "Engineering Manager"]
+    },
+    {
+      "role": "API Developer",
+      "category": "API Development",
+      "experience_level": "Entry to Senior",
+      "required_skills": ["RESTful APIs", "GraphQL", "API Design", "Documentation", "Testing", "Version Control"],
+      "preferred_skills": ["Microservices", "API Gateway", "OAuth", "Rate Limiting", "Monitoring", "SDK Development"],
+      "average_salary": {
+        "entry": 70000,
+        "mid": 105000,
+        "senior": 140000,
+        "lead": 175000
+      },
+      "top_companies": ["Stripe", "Twilio", "SendGrid", "Postman", "GitHub", "Slack", "Zoom", "Dropbox"],
+      "recommended_courses": [
+        {
+          "title": "API Development and Management",
+          "platform": "Udemy",
+          "duration": "3 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 74, 79, 84, 89, 93, 97]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior API Developer", "API Architect", "Integration Lead", "Developer Relations"]
+    },
+    {
+      "role": "Computer Vision Engineer",
+      "category": "Computer Vision",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Computer Vision", "OpenCV", "Deep Learning", "Image Processing", "Python", "Mathematics"],
+      "preferred_skills": ["CUDA", "TensorRT", "3D Vision", "Object Detection", "Segmentation", "OCR"],
+      "average_salary": {
+        "entry": 95000,
+        "mid": 135000,
+        "senior": 175000,
+        "lead": 215000
+      },
+      "top_companies": ["Tesla", "NVIDIA", "Apple", "Google", "Meta", "Amazon", "Microsoft", "Waymo"],
+      "recommended_courses": [
+        {
+          "title": "Computer Vision Specialization",
+          "platform": "Coursera",
+          "duration": "4 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [55, 65, 75, 85, 92, 97, 100]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Senior CV Engineer", "AI Research Scientist", "Computer Vision Lead", "Autonomous Systems Engineer"]
+    },
+    {
+      "role": "ETL Developer",
+      "category": "Data Integration",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["ETL Tools", "SQL", "Data Warehousing", "Data Modeling", "Scripting", "Database Systems"],
+      "preferred_skills": ["Big Data", "Cloud ETL", "Real-time Processing", "Data Quality", "Performance Tuning"],
+      "average_salary": {
+        "entry": 65000,
+        "mid": 95000,
+        "senior": 125000,
+        "lead": 155000
+      },
+      "top_companies": ["IBM", "Microsoft", "Oracle", "Informatica", "Talend", "Pentaho", "SAS", "Snowflake"],
+      "recommended_courses": [
+        {
+          "title": "ETL Testing and Data Warehousing",
+          "platform": "Udemy",
+          "duration": "3 months",
+          "level": "Beginner to Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [68, 71, 75, 79, 83, 87, 91]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior ETL Developer", "Data Engineer", "BI Developer", "Data Architect"]
+    },
+    {
+      "role": "Release Manager",
+      "category": "Release Management",
+      "experience_level": "Mid to Senior",
+      "required_skills": ["Release Planning", "Change Management", "Risk Assessment", "Coordination", "Documentation", "Process Improvement"],
+      "preferred_skills": ["CI/CD", "DevOps", "Automation", "Version Control", "Stakeholder Management"],
+      "average_salary": {
+        "entry": 75000,
+        "mid": 105000,
+        "senior": 140000,
+        "lead": 175000
+      },
+      "top_companies": ["Microsoft", "Google", "Amazon", "Apple", "Netflix", "Uber", "Spotify", "Adobe"],
+      "recommended_courses": [
+        {
+          "title": "Release Management Best Practices",
+          "platform": "LinkedIn Learning",
+          "duration": "2 months",
+          "level": "Intermediate"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [65, 68, 72, 76, 80, 84, 88]
+      },
+      "job_outlook": "Good",
+      "remote_friendly": true,
+      "career_paths": ["Senior Release Manager", "DevOps Manager", "Program Manager", "Operations Director"]
+    },
+    {
+      "role": "Security Architect",
+      "category": "Security Architecture",
+      "experience_level": "Senior to Lead",
+      "required_skills": ["Security Architecture", "Risk Management", "Threat Modeling", "Security Standards", "Compliance", "Design Patterns"],
+      "preferred_skills": ["Zero Trust", "Cloud Security", "Identity Architecture", "Secure Development", "Governance"],
+      "average_salary": {
+        "entry": 110000,
+        "mid": 155000,
+        "senior": 200000,
+        "lead": 245000
+      },
+      "top_companies": ["Cisco", "Palo Alto Networks", "Fortinet", "IBM", "Microsoft", "Amazon", "Google", "Deloitte"],
+      "recommended_courses": [
+        {
+          "title": "SABSA Security Architecture",
+          "platform": "SABSA Institute",
+          "duration": "6 months",
+          "level": "Advanced"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [70, 75, 81, 87, 92, 96, 99]
+      },
+      "job_outlook": "Exceptional",
+      "remote_friendly": true,
+      "career_paths": ["Principal Security Architect", "Chief Security Officer", "Security Consultant", "Security Director"]
+    },
+    {
+      "role": "Low-Code/No-Code Developer",
+      "category": "Low-Code Development",
+      "experience_level": "Entry to Mid",
+      "required_skills": ["Low-Code Platforms", "Business Process Analysis", "Workflow Design", "Integration", "Testing", "User Training"],
+      "preferred_skills": ["API Integration", "Custom Code", "Database Design", "UI/UX", "Project Management"],
+      "average_salary": {
+        "entry": 60000,
+        "mid": 85000,
+        "senior": 115000,
+        "lead": 145000
+      },
+      "top_companies": ["Microsoft", "Salesforce", "ServiceNow", "OutSystems", "Mendix", "Appian", "Bubble", "Zapier"],
+      "recommended_courses": [
+        {
+          "title": "Power Platform Fundamentals",
+          "platform": "Microsoft",
+          "duration": "3 months",
+          "level": "Beginner"
+        }
+      ],
+      "growth_trend": {
+        "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+        "demand_index": [40, 50, 65, 78, 87, 93, 98]
+      },
+      "job_outlook": "Excellent",
+      "remote_friendly": true,
+      "career_paths": ["Senior Low-Code Developer", "Citizen Developer Lead", "Business Analyst", "Process Automation Specialist"]
+    },
+  {
+    "role": "Growth Engineer",
+    "category": "Growth Engineering",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["A/B Testing", "Analytics", "Product Metrics", "SQL", "Python", "Data Analysis", "Experimentation"],
+    "preferred_skills": ["Machine Learning", "Statistical Analysis", "Product Management", "Marketing Automation", "Conversion Optimization"],
+    "average_salary": {
+      "entry": 85000,
+      "mid": 120000,
+      "senior": 160000,
+      "lead": 200000
+    },
+    "top_companies": ["Facebook", "Uber", "Airbnb", "Pinterest", "Shopify", "Stripe", "Netflix", "Spotify"],
+    "recommended_courses": [
+      {
+        "title": "Growth Hacking Specialization",
+        "platform": "Coursera",
+        "duration": "3 months",
+        "level": "Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [50, 60, 72, 82, 89, 94, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Growth Engineer", "Growth Lead", "Product Manager", "VP of Growth"]
+  },
+  {
+    "role": "Site Reliability Engineer",
+    "category": "Site Reliability",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["System Administration", "Monitoring", "Incident Response", "Automation", "Linux", "Scripting", "Performance Tuning"],
+    "preferred_skills": ["Kubernetes", "Prometheus", "Grafana", "Terraform", "Service Mesh", "Chaos Engineering"],
+    "average_salary": {
+      "entry": 95000,
+      "mid": 135000,
+      "senior": 175000,
+      "lead": 220000
+    },
+    "top_companies": ["Google", "Netflix", "Uber", "Dropbox", "LinkedIn", "Twitter", "Spotify", "Airbnb"],
+    "recommended_courses": [
+      {
+        "title": "Site Reliability Engineering",
+        "platform": "Google Cloud",
+        "duration": "4 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [65, 72, 79, 86, 91, 95, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior SRE", "Infrastructure Architect", "Engineering Manager", "Principal Engineer"]
+  },
+  {
+    "role": "Database Administrator",
+    "category": "Database Management",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["Database Design", "SQL", "Performance Tuning", "Backup & Recovery", "Security", "Monitoring"],
+    "preferred_skills": ["Cloud Databases", "NoSQL", "Data Warehousing", "Automation", "High Availability", "Disaster Recovery"],
+    "average_salary": {
+      "entry": 65000,
+      "mid": 95000,
+      "senior": 125000,
+      "lead": 160000
+    },
+    "top_companies": ["Oracle", "Microsoft", "IBM", "Amazon", "Google", "MongoDB", "Snowflake", "Databricks"],
+    "recommended_courses": [
+      {
+        "title": "Database Administration Fundamentals",
+        "platform": "Microsoft",
+        "duration": "4 months",
+        "level": "Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [70, 72, 75, 78, 81, 84, 87]
+    },
+    "job_outlook": "Stable",
+    "remote_friendly": true,
+    "career_paths": ["Senior DBA", "Database Architect", "Data Platform Engineer", "Database Manager"]
+  },
+  {
+    "role": "Quality Assurance Engineer",
+    "category": "Quality Assurance",
+    "experience_level": "Entry to Mid",
+    "required_skills": ["Test Planning", "Manual Testing", "Automated Testing", "Bug Tracking", "Test Documentation", "Regression Testing"],
+    "preferred_skills": ["Selenium", "API Testing", "Performance Testing", "Mobile Testing", "CI/CD Integration", "Test Frameworks"],
+    "average_salary": {
+      "entry": 55000,
+      "mid": 80000,
+      "senior": 110000,
+      "lead": 140000
+    },
+    "top_companies": ["Microsoft", "Google", "Amazon", "Apple", "Meta", "Netflix", "Uber", "Airbnb"],
+    "recommended_courses": [
+      {
+        "title": "Software Testing Fundamentals",
+        "platform": "Udemy",
+        "duration": "3 months",
+        "level": "Beginner to Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [65, 68, 72, 76, 80, 84, 88]
+    },
+    "job_outlook": "Good",
+    "remote_friendly": true,
+    "career_paths": ["Senior QA Engineer", "QA Lead", "Test Automation Architect", "QA Manager"]
+  },
+  {
+    "role": "Business Intelligence Developer",
+    "category": "Business Intelligence",
+    "experience_level": "Entry to Mid",
+    "required_skills": ["SQL", "Data Warehousing", "ETL", "Reporting Tools", "Data Modeling", "Dashboard Development"],
+    "preferred_skills": ["Power BI", "Tableau", "SSRS", "Data Visualization", "OLAP", "Business Analysis"],
+    "average_salary": {
+      "entry": 65000,
+      "mid": 90000,
+      "senior": 120000,
+      "lead": 150000
+    },
+    "top_companies": ["Microsoft", "IBM", "Oracle", "SAP", "Tableau", "Qlik", "SAS", "Informatica"],
+    "recommended_courses": [
+      {
+        "title": "Business Intelligence Analyst",
+        "platform": "Microsoft",
+        "duration": "4 months",
+        "level": "Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [70, 73, 77, 81, 85, 89, 93]
+    },
+    "job_outlook": "Good",
+    "remote_friendly": true,
+    "career_paths": ["Senior BI Developer", "BI Architect", "Data Analyst", "BI Manager"]
+  },
+  {
+    "role": "Hardware Engineer",
+    "category": "Hardware Engineering",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Circuit Design", "PCB Design", "Electronics", "Signal Processing", "Hardware Testing", "CAD Tools"],
+    "preferred_skills": ["FPGA", "ASIC Design", "RF Design", "Power Electronics", "Thermal Analysis", "EMC/EMI"],
+    "average_salary": {
+      "entry": 75000,
+      "mid": 110000,
+      "senior": 145000,
+      "lead": 180000
+    },
+    "top_companies": ["Intel", "NVIDIA", "Apple", "Qualcomm", "Broadcom", "Texas Instruments", "AMD", "Analog Devices"],
+    "recommended_courses": [
+      {
+        "title": "Hardware Design and Verification",
+        "platform": "Udacity",
+        "duration": "5 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [60, 63, 67, 71, 75, 79, 83]
+    },
+    "job_outlook": "Good",
+    "remote_friendly": false,
+    "career_paths": ["Senior Hardware Engineer", "Hardware Architect", "Engineering Manager", "Hardware Design Lead"]
+  },
+  {
+    "role": "IT Support Specialist",
+    "category": "IT Support",
+    "experience_level": "Entry to Mid",
+    "required_skills": ["Technical Support", "Troubleshooting", "Windows/Mac Support", "Network Basics", "Help Desk", "Customer Service"],
+    "preferred_skills": ["Active Directory", "Mobile Device Management", "Remote Support", "ITIL", "Security Basics", "Cloud Services"],
+    "average_salary": {
+      "entry": 40000,
+      "mid": 60000,
+      "senior": 80000,
+      "lead": 100000
+    },
+    "top_companies": ["IBM", "HP", "Dell", "Microsoft", "Apple", "Best Buy", "Geek Squad", "CDW"],
+    "recommended_courses": [
+      {
+        "title": "Google IT Support Certificate",
+        "platform": "Coursera",
+        "duration": "6 months",
+        "level": "Beginner"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [65, 67, 70, 73, 76, 79, 82]
+    },
+    "job_outlook": "Stable",
+    "remote_friendly": true,
+    "career_paths": ["Senior IT Support", "IT Specialist", "System Administrator", "IT Manager"]
+  },
+  {
+    "role": "Blockchain Developer",
+    "category": "Blockchain",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Blockchain Technology", "Smart Contracts", "Solidity", "Web3", "Cryptography", "Distributed Systems"],
+    "preferred_skills": ["Ethereum", "Bitcoin", "DeFi", "NFTs", "IPFS", "Consensus Algorithms"],
+    "average_salary": {
+      "entry": 90000,
+      "mid": 130000,
+      "senior": 170000,
+      "lead": 210000
+    },
+    "top_companies": ["Coinbase", "Binance", "Ethereum Foundation", "ConsenSys", "Ripple", "Chainlink", "Polygon", "Solana"],
+    "recommended_courses": [
+      {
+        "title": "Blockchain Specialization",
+        "platform": "Coursera",
+        "duration": "4 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [30, 45, 70, 85, 75, 80, 88]
+    },
+    "job_outlook": "Good",
+    "remote_friendly": true,
+    "career_paths": ["Senior Blockchain Developer", "Blockchain Architect", "DeFi Engineer", "Crypto Product Manager"]
+  },
+  {
+    "role": "Game Developer",
+    "category": "Game Development",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["Game Engines", "C#", "C++", "Game Design", "3D Graphics", "Animation"],
+    "preferred_skills": ["Unity", "Unreal Engine", "Mobile Game Development", "VR/AR", "Multiplayer Systems", "Game Physics"],
+    "average_salary": {
+      "entry": 60000,
+      "mid": 85000,
+      "senior": 115000,
+      "lead": 145000
+    },
+    "top_companies": ["Electronic Arts", "Activision Blizzard", "Epic Games", "Ubisoft", "Riot Games", "Valve", "Nintendo", "Sony"],
+    "recommended_courses": [
+      {
+        "title": "Game Development Fundamentals",
+        "platform": "Unity Learn",
+        "duration": "4 months",
+        "level": "Beginner to Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [60, 65, 72, 78, 84, 89, 94]
+    },
+    "job_outlook": "Good",
+    "remote_friendly": true,
+    "career_paths": ["Senior Game Developer", "Game Designer", "Technical Artist", "Game Director"]
+  },
+  {
+    "role": "Automation Engineer",
+    "category": "Automation",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Process Automation", "Scripting", "RPA Tools", "Workflow Design", "Testing Automation", "Integration"],
+    "preferred_skills": ["UiPath", "Automation Anywhere", "Blue Prism", "Python", "API Integration", "AI/ML"],
+    "average_salary": {
+      "entry": 70000,
+      "mid": 100000,
+      "senior": 135000,
+      "lead": 170000
+    },
+    "top_companies": ["UiPath", "Automation Anywhere", "Blue Prism", "Microsoft", "IBM", "Accenture", "Deloitte", "KPMG"],
+    "recommended_courses": [
+      {
+        "title": "RPA Developer Foundation",
+        "platform": "UiPath Academy",
+        "duration": "3 months",
+        "level": "Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [55, 65, 75, 83, 89, 94, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Automation Engineer", "RPA Architect", "Process Improvement Manager", "Automation Lead"]
+  },
+  {
+    "role": "Backend Developer",
+    "category": "Backend Development",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["Server-side Programming", "APIs", "Databases", "System Design", "Security", "Performance Optimization"],
+    "preferred_skills": ["Microservices", "Cloud Services", "DevOps", "Message Queues", "Caching", "Load Balancing"],
+    "average_salary": {
+      "entry": 70000,
+      "mid": 105000,
+      "senior": 140000,
+      "lead": 180000
+    },
+    "top_companies": ["Google", "Amazon", "Microsoft", "Meta", "Netflix", "Uber", "Airbnb", "Stripe"],
+    "recommended_courses": [
+      {
+        "title": "Backend Development Specialization",
+        "platform": "Coursera",
+        "duration": "4 months",
+        "level": "Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [80, 83, 87, 90, 93, 96, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Backend Developer", "Backend Architect", "Engineering Manager", "Principal Engineer"]
+  },
+  {
+    "role": "Frontend Developer",
+    "category": "Frontend Development",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["HTML/CSS", "JavaScript", "React/Vue/Angular", "Responsive Design", "Version Control", "Web Performance"],
+    "preferred_skills": ["TypeScript", "Testing Frameworks", "Build Tools", "Progressive Web Apps", "Accessibility", "UI/UX"],
+    "average_salary": {
+      "entry": 65000,
+      "mid": 95000,
+      "senior": 130000,
+      "lead": 165000
+    },
+    "top_companies": ["Google", "Meta", "Netflix", "Airbnb", "Spotify", "Shopify", "GitHub", "Figma"],
+    "recommended_courses": [
+      {
+        "title": "Frontend Developer Nanodegree",
+        "platform": "Udacity",
+        "duration": "4 months",
+        "level": "Beginner to Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [85, 87, 90, 92, 94, 96, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Frontend Developer", "Frontend Architect", "UI Engineer", "Engineering Manager"]
+  },
+  {
+    "role": "UI/UX Designer",
+    "category": "Design",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["User Research", "Wireframing", "Prototyping", "Design Tools", "Usability Testing", "Visual Design"],
+    "preferred_skills": ["Figma", "Sketch", "Adobe Creative Suite", "Design Systems", "Information Architecture", "Interaction Design"],
+    "average_salary": {
+      "entry": 60000,
+      "mid": 90000,
+      "senior": 125000,
+      "lead": 160000
+    },
+    "top_companies": ["Apple", "Google", "Meta", "Adobe", "Figma", "Airbnb", "Uber", "Spotify"],
+    "recommended_courses": [
+      {
+        "title": "UI/UX Design Specialization",
+        "platform": "Coursera",
+        "duration": "4 months",
+        "level": "Beginner to Intermediate"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [75, 78, 82, 86, 90, 93, 96]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Designer", "Design Lead", "Product Designer", "Design Director"]
+  },
+  {
+    "role": "Quantum Computing Engineer",
+    "category": "Quantum Computing",
+    "experience_level": "Senior to Lead",
+    "required_skills": ["Quantum Mechanics", "Quantum Algorithms", "Programming", "Mathematics", "Physics", "Research"],
+    "preferred_skills": ["Qiskit", "Cirq", "Q#", "Quantum Machine Learning", "Error Correction", "Quantum Hardware"],
+    "average_salary": {
+      "entry": 120000,
+      "mid": 160000,
+      "senior": 200000,
+      "lead": 250000
+    },
+    "top_companies": ["IBM", "Google", "Microsoft", "Amazon", "Rigetti", "IonQ", "D-Wave", "Honeywell"],
+    "recommended_courses": [
+      {
+        "title": "Introduction to Quantum Computing",
+        "platform": "IBM Qiskit",
+        "duration": "6 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [20, 25, 35, 50, 65, 78, 88]
+    },
+    "job_outlook": "Emerging",
+    "remote_friendly": true,
+    "career_paths": ["Principal Quantum Engineer", "Quantum Research Scientist", "Quantum Architect", "CTO"]
+  },
+  {
+    "role": "Edge Computing Engineer",
+    "category": "Edge Computing",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Edge Architecture", "Distributed Systems", "IoT", "Real-time Processing", "Network Optimization", "Security"],
+    "preferred_skills": ["5G", "AI at Edge", "Container Orchestration", "Kubernetes", "Microservices", "Edge Analytics"],
+    "average_salary": {
+      "entry": 85000,
+      "mid": 120000,
+      "senior": 160000,
+      "lead": 200000
+    },
+    "top_companies": ["AWS", "Microsoft", "Google", "Intel", "NVIDIA", "Cisco", "Dell", "HPE"],
+    "recommended_courses": [
+      {
+        "title": "Edge Computing Fundamentals",
+        "platform": "Linux Foundation",
+        "duration": "3 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [40, 52, 66, 78, 87, 93, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Edge Engineer", "Edge Architect", "IoT Solutions Lead", "Edge Computing Director"]
+  },
+  {
+    "role": "MLOps Engineer",
+    "category": "MLOps",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Machine Learning", "DevOps", "CI/CD", "Model Deployment", "Monitoring", "Cloud Platforms"],
+    "preferred_skills": ["Kubernetes", "Docker", "MLflow", "Kubeflow", "Model Versioning", "Data Pipeline"],
+    "average_salary": {
+      "entry": 90000,
+      "mid": 130000,
+      "senior": 170000,
+      "lead": 210000
+    },
+    "top_companies": ["Google", "Amazon", "Microsoft", "Netflix", "Uber", "Airbnb", "Spotify", "LinkedIn"],
+    "recommended_courses": [
+      {
+        "title": "MLOps Specialization",
+        "platform": "Coursera",
+        "duration": "4 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [30, 45, 68, 82, 91, 96, 100]
+    },
+    "job_outlook": "Exceptional",
+    "remote_friendly": true,
+    "career_paths": ["Senior MLOps Engineer", "ML Platform Engineer", "AI Infrastructure Lead", "ML Engineering Manager"]
+  },
+  {
+    "role": "Data Privacy Officer",
+    "category": "Data Privacy",
+    "experience_level": "Mid to Senior",
+    "required_skills": ["Data Privacy Laws", "GDPR", "Risk Assessment", "Compliance", "Privacy by Design", "Policy Development"],
+    "preferred_skills": ["CCPA", "Privacy Impact Assessment", "Data Mapping", "Privacy Engineering", "Legal Knowledge"],
+    "average_salary": {
+      "entry": 80000,
+      "mid": 115000,
+      "senior": 155000,
+      "lead": 195000
+    },
+    "top_companies": ["Microsoft", "Google", "Meta", "Apple", "Amazon", "IBM", "Salesforce", "Adobe"],
+    "recommended_courses": [
+      {
+        "title": "Certified Information Privacy Professional",
+        "platform": "IAPP",
+        "duration": "4 months",
+        "level": "Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [45, 58, 72, 84, 91, 96, 99]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Privacy Officer", "Chief Privacy Officer", "Privacy Consultant", "Privacy Director"]
+  },
+  {
+    "role": "Full Stack Developer",
+    "category": "Full Stack Development",
+    "experience_level": "Entry to Senior",
+    "required_skills": ["Frontend Technologies", "Backend Technologies", "Databases", "APIs", "Version Control", "Web Fundamentals"],
+    "preferred_skills": ["Cloud Services", "DevOps", "Testing", "System Design", "Mobile Development", "UI/UX"],
+    "average_salary": {
+      "entry": 75000,
+      "mid": 110000,
+      "senior": 145000,
+      "lead": 185000
+    },
+    "top_companies": ["Google", "Meta", "Amazon", "Microsoft", "Netflix", "Airbnb", "Stripe", "GitHub"],
+    "recommended_courses": [
+      {
+        "title": "Full Stack Web Development",
+        "platform": "FreeCodeCamp",
+        "duration": "6 months",
+        "level": "Beginner to Advanced"
+      }
+    ],
+    "growth_trend": {
+      "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+      "demand_index": [85, 87, 90, 92, 94, 96, 98]
+    },
+    "job_outlook": "Excellent",
+    "remote_friendly": true,
+    "career_paths": ["Senior Full Stack Developer", "Tech Lead", "Engineering Manager", "Solutions Architect"]
+}
+            ]
+        };
+
+        // Global variables
+        let careerRoles = careerData.career_roles;
+        let categories = new Set();
+        let allSkills = new Set();
+        let chatbotOpen = false;
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Extract unique categories and skills
+            careerRoles.forEach(role => {
+                categories.add(role.category);
+                role.required_skills.forEach(skill => allSkills.add(skill));
+                role.preferred_skills.forEach(skill => allSkills.add(skill));
+            });
+
+            // Initialize components
+            initializeSidebar();
+            initializeComponents();
+            loadTrendingSkills();
+            loadRoleCourses();
+            loadJobInsights();
+            initializeResumeAnalyzer();
+            initializeCareerPath();
+            populateTargetRoles();
+            scrollChatToBottom();
+        });
+
+        function generateCourseUrl(course) {
+            const platform = course.platform.toLowerCase();
+            const title = course.title.toLowerCase().replace(/\s+/g, '-');
+            
+            if (platform.includes('coursera')) {
+                return `https://www.coursera.org/search?query=${title}`;
+            } else if (platform.includes('udemy')) {
+                return `https://www.udemy.com/courses/search/?q=${title}`;
+            } else if (platform.includes('udacity')) {
+                return `https://www.udacity.com/courses/all?search=${title}`;
+            } else if (platform.includes('edureka')) {
+                return `https://www.edureka.co/search?query=${title}`;
+            } else if (platform.includes('microsoft') || platform.includes('msft')) {
+                return `https://learn.microsoft.com/en-us/search/?terms=${title}`;
+            } else {
+                return `https://www.google.com/search?q=${title}+${course.platform}+course`;
+            }
+        }
+        // Sidebar functionality
+        function initializeSidebar() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const component = this.dataset.component;
+                    switchComponent(component);
+                    
+                    // Update active state
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+
+        // Component switching
+        function switchComponent(componentName) {
+            // Hide all components
+            document.querySelectorAll('.component').forEach(comp => {
+                comp.classList.remove('active');
+            });
+            
+            // Show selected component
+            const targetComponent = document.getElementById(componentName);
+            if (targetComponent) {
+                targetComponent.classList.add('active');
+            }
+        }
+
+        function initializeComponents() {
+            // Hide all components except dashboard initially
+            document.querySelectorAll('.component').forEach(comp => {
+                if (comp.id !== 'dashboard') {
+                    comp.classList.remove('active');
+                }
+            });
+        }
+
+        // In loadTrendingSkills() function:
+function loadTrendingSkills() {
+    // Horizontal grouped bar chart
+    const skills = ["AI", "Cloud", "ML", "Cybersecurity", "Data Science"];
+    const demand = [95, 92, 90, 88, 87];
+    const growth = [42, 38, 40, 35, 37];
+    
+    const trace1 = {
+        x: demand,
+        y: skills,
+        name: 'Demand',
+        type: 'bar',
+        orientation: 'h',
+        marker: { color: '#6366f1' }
+    };
+    
+    const trace2 = {
+        x: growth,
+        y: skills,
+        name: 'Growth',
+        type: 'bar',
+        orientation: 'h',
+        marker: { color: '#10b981' }
+    };
+    
+    Plotly.newPlot('skills-bar-chart', [trace1, trace2], {
+        title: 'Top Skills by Demand & Growth',
+        barmode: 'group',
+        margin: { l: 150 }
+    });
+
+    // Violin plot for salaries
+    const roles = ["Data Scientist", "AI Engineer", "Cloud Architect"];
+    const salaries = [
+        [85, 92, 97, 103, 110, 115, 120, 125, 130, 140, 150, 160, 170],
+        [95, 105, 115, 125, 135, 145, 155, 165, 175, 185, 195, 210, 225],
+        [100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 215, 230]
+    ];
+    
+    const data = roles.map((role, i) => ({
+        y: salaries[i],
+        type: 'violin',
+        name: role,
+        box: { visible: true },
+        meanline: { visible: true }
+    }));
+    
+    Plotly.newPlot('salary-distribution', data, {
+        title: 'Salary Distribution by Role ($K)'
+    });
+
+    // Word cloud
+    const skillsCloud = [
+        {name: "AI", size: 32},
+        {name: "Cloud", size: 28},
+        {name: "ML", size: 26},
+        {name: "Cybersecurity", size: 24},
+        {name: "Data Science", size: 24},
+        {name: "DevOps", size: 22},
+        {name: "Python", size: 20}
+    ];
+    
+    const cloudContainer = document.querySelector('.word-cloud');
+    skillsCloud.forEach(skill => {
+        const item = document.createElement('div');
+        item.className = 'cloud-item';
+        item.innerHTML = `<i class="fas fa-hashtag"></i> ${skill.name}`;
+        item.style.fontSize = `${skill.size}px`;
+        item.style.opacity = `${0.7 + (skill.size / 100)}`;
+        cloudContainer.appendChild(item);
+    });
+}
+
+// Add helper function for violin plot colors
+function getRoleColor(role) {
+    const colors = {
+        "Data Scientist": "#6366f1",
+        "AI Engineer": "#10b981",
+        "Cloud Architect": "#8b5cf6"
+    };
+    return colors[role] || "#6366f1";
+}
+        // Role-based Courses functionality
+        function loadRoleCourses() {
+            // Populate category filter
+            const categoryFilter = document.getElementById('category-filter');
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+            renderRoles(careerRoles);
+            
+            // Setup filters
+            setupRoleFilters();
+        }
+
+      function renderRoles(roles) {
+            const container = document.getElementById('roles-container');
+            container.innerHTML = '';
+            
+            roles.forEach((role, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-md-6 col-lg-4 mb-4';
+                
+                col.innerHTML = `
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="card-title">${role.role}</h5>
+                                <span class="badge bg-primary">${role.category}</span>
+                            </div>
+                            <div class="mb-3">
+                                <h6>✨ Required Skills:</h6>
+                                <div>
+                                    ${role.required_skills.map(skill => 
+                                        `<span class="skill-tag">${skill}</span>`
+                                    ).join('')}
+                                </div>
+                            </div>
+                            
+                            <!-- Preferred Skills Collapsible -->
+                            <div class="mb-3">
+                                <div class="collapsible-header" onclick="toggleCollapse(this, 'pref-${index}')">
+                                    <h6 class="mb-0">🧠 Preferred Skills</h6>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div id="pref-${index}" class="collapsible-content">
+                                    <div>
+                                        ${role.preferred_skills.map(skill => 
+                                            `<span class="skill-tag">${skill}</span>`
+                                        ).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Recommended Courses Collapsible -->
+                            <div class="mb-3">
+                                <div class="collapsible-header" onclick="toggleCollapse(this, 'courses-${index}')">
+                                    <h6 class="mb-0">🎓 Recommended Courses</h6>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div id="courses-${index}" class="collapsible-content">
+                                    <div class="mt-2">
+                                        ${role.recommended_courses.map(course => {
+                                            const url = generateCourseUrl(course);
+                                            return `
+                                                <a href="${url}" target="_blank" class="course-link">
+                                                    <i class="fas fa-external-link-alt"></i>
+                                                    ${course.title} (${course.platform}) - ${course.level}
+                                                </a>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-auto pt-2 border-top">
+                                <div class="d-flex justify-content-between small">
+                                    <span>Experience: ${role.experience_level}</span>
+                                    <span class="text-success">Outlook: ${role.job_outlook}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(col);
+            });
+        }
+
+        function toggleCollapse(headerElement, contentId) {
+            const content = document.getElementById(contentId);
+            const icon = headerElement.querySelector('i');
+            
+            content.classList.toggle('expanded');
+            
+            if (content.classList.contains('expanded')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        function setupRoleFilters() {
+            const categoryFilter = document.getElementById('category-filter');
+            const roleSearch = document.getElementById('role-search');
+            
+            categoryFilter.addEventListener('change', filterRoles);
+            roleSearch.addEventListener('input', filterRoles);
+        }
+
+        function filterRoles() {
+            const category = document.getElementById('category-filter').value;
+            const searchTerm = document.getElementById('role-search').value.toLowerCase();
+            
+            const filtered = careerRoles.filter(role => {
+                const matchesCategory = !category || role.category === category;
+                const matchesSearch = !searchTerm || 
+                    role.role.toLowerCase().includes(searchTerm) ||
+                    role.category.toLowerCase().includes(searchTerm) ||
+                    role.required_skills.some(skill => skill.toLowerCase().includes(searchTerm)) ||
+                    role.preferred_skills.some(skill => skill.toLowerCase().includes(searchTerm));
+                
+                return matchesCategory && matchesSearch;
+            });
+            
+            renderRoles(filtered);
+        }
+
+        // Add to the existing JavaScript
+function loadJobInsights() {
+    // Populate category filter
+    const categoryFilter = document.getElementById('insights-category-filter');
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+    });
+    
+    // Setup filters
+    setupInsightsFilters();
+    
+    // Render initial insights
+    renderJobInsights(careerRoles);
+}
+
+function setupInsightsFilters() {
+    const categoryFilter = document.getElementById('insights-category-filter');
+    const roleSearch = document.getElementById('insights-role-search');
+    const searchBtn = document.getElementById('insights-search-btn');
+    
+    categoryFilter.addEventListener('change', filterJobInsights);
+    roleSearch.addEventListener('input', filterJobInsights);
+    searchBtn.addEventListener('click', filterJobInsights);
+}
+
+function filterJobInsights() {
+    const category = document.getElementById('insights-category-filter').value;
+    const searchTerm = document.getElementById('insights-role-search').value.toLowerCase();
+    
+    const filtered = careerRoles.filter(role => {
+        const matchesCategory = !category || role.category === category;
+        const matchesSearch = !searchTerm || 
+            role.role.toLowerCase().includes(searchTerm) ||
+            role.category.toLowerCase().includes(searchTerm);
+        
+        return matchesCategory && matchesSearch;
+    });
+    
+    renderJobInsights(filtered);
+}
+
+function renderJobInsights(roles) {
+    const container = document.getElementById('insights-container');
+    container.innerHTML = '';
+    
+    if (roles.length === 0) {
+        container.innerHTML = `
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                <h4>No matching roles found</h4>
+                <p>Try adjusting your filters</p>
+            </div>
+        `;
+        return;
+    }
+    
+    roles.forEach(role => {
+        const col = document.createElement('div');
+        col.className = 'col-md-6 col-lg-4 mb-4';
+        
+        // Create company icons HTML with names
+        const companyIcons = role.top_companies.slice(0, 4).map(company => {
+            const iconClass = getCompanyIcon(company);
+            return `
+                <div class="text-center mx-1">
+                    <div class="company-icon mb-1" title="${company}">
+                        <i class="${iconClass}"></i>
+                    </div>
+                    <small class="text-muted d-block" style="font-size:0.7rem;line-height:1.1">${company}</small>
+                </div>
+            `;
+        }).join('');
+        
+        col.innerHTML = `
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">${role.role}</h5>
+                    <small>${role.category}</small>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h6>Salary Range:</h6>
+                        <div class="salary-range">
+                            <div class="d-flex justify-content-between">
+                                <span>Entry:</span>
+                                <span class="fw-bold">$${role.average_salary.entry.toLocaleString()}</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Mid:</span>
+                                <span class="fw-bold">$${role.average_salary.mid.toLocaleString()}</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Senior:</span>
+                                <span class="fw-bold">$${role.average_salary.senior.toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6>Top Companies:</h6>
+                        <div class="d-flex justify-content-around mt-3 flex-wrap">
+                            ${companyIcons}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6>Growth Trend:</h6>
+                        <div class="position-relative" style="height:180px">
+                            <div id="growth-chart-${role.role.replace(/\s+/g, '-')}" class="w-100 h-100"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="badge bg-${role.remote_friendly ? 'success' : 'warning'}">
+                            <i class="fas fa-${role.remote_friendly ? 'home' : 'building'} me-1"></i>
+                            ${role.remote_friendly ? 'Remote' : 'Office'}
+                        </span>
+                        <span class="badge bg-${getOutlookClass(role.job_outlook)}">
+                            ${role.job_outlook}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(col);
+        
+        // Render enhanced growth chart
+        renderGrowthChart(role);
+    });
+}
+
+function renderGrowthChart(role) {
+    const chartId = `growth-chart-${role.role.replace(/\s+/g, '-')}`;
+    
+    const growthData = [{
+        x: role.growth_trend.years,
+        y: role.growth_trend.demand_index,
+        type: 'scatter',
+        mode: 'lines+markers',
+        line: { 
+            color: '#6366f1',
+            width: 3,
+            shape: 'spline'
+        },
+        marker: {
+            size: 8,
+            color: '#8b5cf6'
+        },
+        fill: 'tozeroy',
+        fillcolor: 'rgba(99, 102, 241, 0.1)'
+    }];
+    
+    const growthLayout = {
+        margin: { t: 10, b: 40, l: 50, r: 20 },
+        showlegend: false,
+        xaxis: { 
+            showgrid: true,
+            gridcolor: 'rgba(0,0,0,0.05)',
+            tickvals: role.growth_trend.years,
+            title: {
+                text: 'Year',
+                standoff: 10
+            }
+        },
+        yaxis: { 
+            range: [0, 100],
+            gridcolor: 'rgba(0,0,0,0.05)',
+            title: {
+                text: 'Demand',
+                standoff: 10
+            }
+        },
+        hovermode: 'x unified',
+        hoverlabel: { bgcolor: 'rgba(0,0,0,0.8)' },
+        autosize: true
+    };
+    
+    // Add config to make chart responsive
+    const config = {
+        responsive: true
+    };
+    
+    Plotly.newPlot(chartId, growthData, growthLayout, config);
+}
+
+function getCompanyIcon(company) {
+    const iconMap = {
+        'Google': 'fab fa-google text-danger',
+        'Amazon': 'fab fa-amazon text-warning',
+        'Microsoft': 'fab fa-microsoft text-primary',
+        'Apple': 'fab fa-apple text-dark',
+        'Meta': 'fab fa-meta text-primary',
+        'Netflix': 'fab fa-netflix text-danger',
+        'IBM': 'fab fa-ibm text-blue',
+        'Oracle': 'fas fa-database text-red',
+        'Salesforce': 'fas fa-cloud text-info',
+        'Adobe': 'fas fa-palette text-purple',
+        'Intel': 'fas fa-microchip text-blue',
+        'NVIDIA': 'fas fa-gamepad text-green',
+        'Cisco': 'fas fa-network-wired text-blue',
+        'Dell': 'fas fa-laptop text-blue',
+        'HP': 'fas fa-laptop text-purple',
+        'Tesla': 'fas fa-car text-danger',
+        'Uber': 'fas fa-car text-black',
+        'Airbnb': 'fas fa-home text-danger',
+        'Spotify': 'fab fa-spotify text-success',
+        'Twitter': 'fab fa-twitter text-info',
+        'LinkedIn': 'fab fa-linkedin text-primary',
+        'Stripe': 'fab fa-stripe text-purple',
+        'GitHub': 'fab fa-github text-dark'
+    };
+    
+    return iconMap[company] || 'fas fa-building text-muted';
+}
+
+function getOutlookClass(outlook) {
+    const outlookMap = {
+        'Exceptional': 'success',
+        'Excellent': 'primary',
+        'Very Good': 'info',
+        'Good': 'info',
+        'Stable': 'warning',
+        'Emerging': 'secondary'
+    };
+    
+    return outlookMap[outlook] || 'secondary';
+}
+
+        // Resume Analyzer functionality
+        function populateTargetRoles() {
+            const targetRoleSelect = document.getElementById('target-role');
+            
+            careerRoles.forEach(role => {
+                const option = document.createElement('option');
+                option.value = role.role;
+                option.textContent = role.role;
+                targetRoleSelect.appendChild(option);
+            });
+        }
+
+        function initializeResumeAnalyzer() {
+            const form = document.getElementById('resume-form');
+            const resultsDiv = document.getElementById('resume-results');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                analyzeResume();
+            });
+        }
+
+        function analyzeResume() {
+            const fileInput = document.getElementById('resume-file');
+            const targetRole = document.getElementById('target-role').value;
+            
+            if (!fileInput.files[0] || !targetRole) {
+                alert('Please select both a file and target role');
+                return;
+            }
+
+            // Simulate file processing
+            setTimeout(() => {
+                displayResumeResults(targetRole);
+            }, 1500);
+        }
+
+        function displayResumeResults(targetRole) {
+            const resultsDiv = document.getElementById('resume-results');
+            const roleData = careerRoles.find(role => role.role === targetRole);
+            
+            if (!roleData) return;
+
+            // Simulate extracted skills (in real app, this would come from PDF parsing)
+            const extractedSkills = ['Python', 'JavaScript', 'SQL', 'Git', 'Machine Learning', 'Docker'];
+            const allRoleSkills = [...roleData.required_skills, ...roleData.preferred_skills];
+            
+            const matchedSkills = extractedSkills.filter(skill => allRoleSkills.includes(skill));
+            const missingSkills = allRoleSkills.filter(skill => !extractedSkills.includes(skill));
+            const matchPercentage = Math.round((matchedSkills.length / allRoleSkills.length) * 100);
+
+            // Update results display
+            document.getElementById('match-percentage').textContent = `${matchPercentage}% Match`;
+            document.getElementById('result-role').textContent = targetRole;
+            document.getElementById('salary-entry').textContent = `$${roleData.average_salary.entry.toLocaleString()}`;
+            document.getElementById('salary-lead').textContent = `$${roleData.average_salary.lead.toLocaleString()}`;
+
+            // Display matched skills
+            const matchedSkillsList = document.getElementById('matched-skills');
+            matchedSkillsList.innerHTML = matchedSkills.map(skill => 
+                `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${skill}
+                    <i class="fas fa-check text-success"></i>
+                </li>`
+            ).join('');
+
+            // Display missing skills
+            const missingSkillsList = document.getElementById('missing-skills');
+            missingSkillsList.innerHTML = missingSkills.slice(0, 5).map(skill => 
+                `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${skill}
+                    <i class="fas fa-times text-danger"></i>
+                </li>`
+            ).join('');
+
+            // Display improvement suggestions
+            const improvementList = document.getElementById('improvement-list');
+            const suggestions = missingSkills.slice(0, 3).map(skill => {
+                const course = roleData.recommended_courses[0] || { title: "Relevant Course", platform: "Various" };
+                return `<div class="alert alert-info">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    Learn <strong>${skill}</strong> - Recommended: ${course.title} on ${course.platform}
+                </div>`;
+            }).join('');
+            
+            improvementList.innerHTML = suggestions;
+
+            resultsDiv.style.display = 'block';
+        }
+
+        // Career Path functionality
+        function initializeCareerPath() {
+            const form = document.getElementById('career-assessment');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                generateCareerPath();
+            });
+        }
+
+        function generateCareerPath() {
+            const skills = document.getElementById('skills-input').value;
+            const experience = document.getElementById('experience-level').value;
+            const industry = document.getElementById('industry').value;
+            
+            if (!skills || !experience || !industry) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Generate career path recommendations
+            const recommendations = generateRecommendations(skills, experience, industry);
+            displayCareerPath(recommendations);
+        }
+
+        function generateRecommendations(skills, experience, industry) {
+            const skillsList = skills.toLowerCase().split(',').map(s => s.trim());
+            
+            // Find matching roles
+            const matchingRoles = careerRoles.filter(role => {
+                const roleSkills = [...role.required_skills, ...role.preferred_skills].map(s => s.toLowerCase());
+                return skillsList.some(skill => roleSkills.some(rs => rs.includes(skill)));
+            }).slice(0, 3);
+            
+            // Generate next steps
+            const nextSteps = [
+                'Strengthen core technical skills',
+                'Build portfolio projects',
+                'Network with industry professionals',
+                'Consider relevant certifications'
+            ];
+            
+            // Generate learning path
+            const learningPath = matchingRoles.flatMap(role => 
+                role.recommended_courses.map(course => course.title)
+            ).slice(0, 4);
+            
+            return {
+                currentLevel: experience,
+                suggestedRoles: matchingRoles,
+                nextSteps: nextSteps,
+                learningPath: learningPath
+            };
+        }
+
+        function displayCareerPath(recommendations) {
+            const resultsDiv = document.getElementById('career-path-results');
+            const recommendationsDiv = document.getElementById('path-recommendations');
+            
+            // Create visualization path
+            const pathVisualization = document.getElementById('path-visualization');
+            pathVisualization.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="text-center">
+                        <div class="bg-primary text-white rounded-circle p-3 mb-2" style="width: 80px; height: 80px;">
+                            <i class="fas fa-user fs-3"></i>
+                        </div>
+                        <h6>Current</h6>
+                        <div>${recommendations.currentLevel}</div>
+                    </div>
+                    <i class="fas fa-arrow-right fs-1 text-muted mx-2"></i>
+                    <div class="text-center">
+                        <div class="bg-success text-white rounded-circle p-3 mb-2" style="width: 80px; height: 80px;">
+                            <i class="fas fa-briefcase fs-3"></i>
+                        </div>
+                        <h6>Target Role</h6>
+                        <div>${recommendations.suggestedRoles[0]?.role || 'Tech Professional'}</div>
+                    </div>
+                    <i class="fas fa-arrow-right fs-1 text-muted mx-2"></i>
+                    <div class="text-center">
+                        <div class="bg-warning text-white rounded-circle p-3 mb-2" style="width: 80px; height: 80px;">
+                            <i class="fas fa-chart-line fs-3"></i>
+                        </div>
+                        <h6>Future</h6>
+                        <div>Leadership</div>
+                    </div>
+                </div>
+            `;
+            
+            // Create recommendations
+            let content = `
+                <div class="mb-4">
+                    <h6>Recommended Career Paths:</h6>
+                    <div class="row">
+                        ${recommendations.suggestedRoles.map(role => `
+                            <div class="col-md-4 mb-3">
+                                <div class="card border-primary">
+                                    <div class="card-body text-center">
+                                        <h6 class="card-title">${role.role}</h6>
+                                        <p class="small text-muted">${role.category}</p>
+                                        <div class="fw-bold text-success">$${role.average_salary.mid.toLocaleString()}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h6 class="mb-0">Next Steps</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled">
+                                    ${recommendations.nextSteps.map(step => 
+                                        `<li class="mb-2"><i class="fas fa-arrow-right text-primary me-2"></i>${step}</li>`
+                                    ).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <h6 class="mb-0">Learning Path</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled">
+                                    ${recommendations.learningPath.map((step, index) => 
+                                        `<li class="mb-2"><span class="badge bg-success me-2">${index + 1}</span>${step}</li>`
+                                    ).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            recommendationsDiv.innerHTML = content;
+            resultsDiv.style.display = 'block';
+        }
+
+        // Chatbot functionality
+        // Replace toggleChatbot function with:
+function toggleChatbot() {
+  const window = document.getElementById('chatbot-window');
+  window.style.display = window.style.display === 'none' ? 'block' : 'none';
+   if (window.style.display === 'block') {
+        setTimeout(scrollChatToBottom, 100);
+    }
+}
+
+        function handleChatKeypress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+      function scrollChatToBottom() {
+    const messagesContainer = document.getElementById('chat-messages');
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    const scrollDownBtn = document.querySelector('.scroll-down-btn');
+    scrollDownBtn.classList.remove('visible');
+}
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            addMessage('user', message);
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const response = generateAIResponse(message);
+                addMessage('bot', response);
+            }, 1000);
+        }
+
+    function addMessage(sender, text) {
+    const messagesContainer = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}`;
+    
+    messageDiv.innerHTML = `
+        <div class="avatar">
+            ${sender === 'bot' ? 
+                '<img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="AI Assistant">' : 
+                '<i class="fas fa-user"></i>'}
+        </div>
+        <div class="text">${text}</div>
+    `;
+    
+    messagesContainer.appendChild(messageDiv);
+    setTimeout(() => {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }, 50);
+}
+
+    // Auto-scroll only if user is near
+
+// Add scroll event listener to show/hide scroll button
+document.getElementById('chat-messages').addEventListener('scroll', function() {
+    const messagesContainer = this;
+    const scrollDownBtn = document.querySelector('.scroll-down-btn');
+    
+    const isAtBottom = messagesContainer.scrollHeight - messagesContainer.scrollTop === messagesContainer.clientHeight;
+    
+    if (isAtBottom) {
+        scrollDownBtn.classList.remove('visible');
+    } else {
+        scrollDownBtn.classList.add('visible');
+    }
+});
+        function generateAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('resume') || lowerMessage.includes('cv')) {
+                return "I can help you analyze your resume! Go to the Resume Analyzer section to upload your CV and get personalized feedback on how to improve it for your target role.";
+            }
+            
+            if (lowerMessage.includes('career') || lowerMessage.includes('job')) {
+                return "Great question! I can help you explore career paths based on your skills and interests. Check out the Career Path Advisor to get personalized recommendations.";
+            }
+            
+            if (lowerMessage.includes('skill') || lowerMessage.includes('learn')) {
+                return "Looking to upskill? Visit our Trending Skills section to see what's hot in the job market, or check Role-based Courses for targeted learning paths.";
+            }
+            
+            if (lowerMessage.includes('salary') || lowerMessage.includes('pay')) {
+                return "Salary information varies by role and experience. Check out our Job Insights section for detailed salary ranges and market trends for different positions.";
+            }
+            
+            return "I'm here to help with your career questions! You can ask me about resume analysis, career paths, trending skills, or salary insights. What would you like to know more about?";
+        }
+
+        // Mobile responsiveness
+        function handleMobileNavigation() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.add('collapsed');
+            }
+        }
+
+        window.addEventListener('resize', handleMobileNavigation);
+        handleMobileNavigation();
+    </script>
+</body>
+</html>
